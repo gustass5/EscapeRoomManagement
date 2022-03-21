@@ -1,12 +1,14 @@
-import React from 'react'
-import Layout from './Layout'
-import { Head } from '@inertiajs/inertia-react'
+import React from "react";
+import Layout from "./Layout";
+import { Head } from "@inertiajs/inertia-react";
 
-export default function App() {
-  return (
-    <Layout>
-      <Head title="App" />
-      <h1>App</h1>
-    </Layout>
-  )
-}
+const App: React.FC = () => {
+    return (
+        <Layout>
+            <Head title="App" />
+            <h1 className="text-xl text-red-500 ">App</h1>
+        </Layout>
+    );
+};
+
+export default App;

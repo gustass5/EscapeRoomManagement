@@ -1,9 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 
-export default function Layout() {
+const Layout: React.FC = ({ children }) => {
     return (
         <main>
             <header></header>
+            <article>{children}</article>
         </main>
     );
-}
+};
+
+export default Layout;
