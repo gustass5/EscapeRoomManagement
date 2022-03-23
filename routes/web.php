@@ -14,9 +14,9 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return Inertia::render('Login');
 });
 
-Route::get('/app', function () {
-    return Inertia::render('App');
+Route::get('/welcome', function () {
+    return view('welcome');
 });
