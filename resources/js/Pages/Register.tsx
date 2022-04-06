@@ -1,32 +1,30 @@
-import { Head } from "@inertiajs/inertia-react";
-import { useForm } from "@inertiajs/inertia-react";
+import { Head, useForm } from "@inertiajs/inertia-react";
 import React from "react";
 import { Button } from "../components/Button/Button";
 import { FormField } from "../components/FormField/FormField";
 import { UnauthorizedLayout } from "../layout/UnauthorizedLayout";
-import { ExtraFormFields } from "../widgets/ExtraFormFields";
 import { FormError } from "../widgets/FormError";
 import { FormHeader } from "../widgets/FormHeader";
 
-const Login: React.VFC = () => {
+const Register: React.FC = () => {
 	const { data, setData, post, processing, errors } = useForm({
 		email: "",
 		password: "",
-		remember: false,
-		credentials: "",
+		passwordConfirmation: "",
 	});
 
 	function handleSubmit(event) {
 		event.preventDefault();
-		post("/login");
+		post("/register");
 	}
 
 	return (
 		<>
 			<Head title="Login" />
 			<UnauthorizedLayout>
-				<FormHeader>Sign in to your account</FormHeader>
-				<form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+				<FormHeader>Create new account</FormHeader>
+				<form onSubmit={handleSubmit} className="mt-8 space-y-6">
+					<input type="hidden" name="remember" defaultValue="true" />
 					<div className="rounded-md shadow-sm space-y-4">
 						<FormField
 							identifier="email"
@@ -39,6 +37,9 @@ const Login: React.VFC = () => {
 						>
 							Email address
 						</FormField>
+
+						<FormError error={errors.email} />
+
 						<FormField
 							identifier="password"
 							type="password"
@@ -49,18 +50,28 @@ const Login: React.VFC = () => {
 									event.target.value.toString()
 								)
 							}
+							autocomplete="new-password"
 						>
 							Password
 						</FormField>
-					</div>
-					<FormError error={errors.credentials} />
 
-					<ExtraFormFields
-						checkBoxValue={data.remember}
-						handleCheckBoxChange={(event) =>
-							setData("remember", event.target.checked)
-						}
-					/>
+						<FormError error={errors.password} />
+
+						<FormField
+							identifier="confirm-password"
+							type="password"
+							value={data.passwordConfirmation}
+							handleChange={(event) =>
+								setData(
+									"passwordConfirmation",
+									event.target.value.toString()
+								)
+							}
+							autocomplete="new-password"
+						>
+							Confirm password
+						</FormField>
+					</div>
 
 					<div className="space-y-2">
 						<Button
@@ -68,14 +79,14 @@ const Login: React.VFC = () => {
 							type="submit"
 							disabled={processing}
 						>
-							Sign in
+							Sign up
 						</Button>
 
 						<Button
 							className="text-pink-700 hover:bg-pink-100"
-							href="/register"
+							href="/login"
 						>
-							Don't have an account? Sign up
+							Already have an account? Sign in
 						</Button>
 					</div>
 				</form>
@@ -84,4 +95,4 @@ const Login: React.VFC = () => {
 	);
 };
 
-export default Login;
+export default Register;

@@ -1,38 +1,43 @@
-import React, { Fragment } from 'react';
+import React, { Fragment } from "react";
+import { Inertia } from "@inertiajs/inertia";
 
-import { Menu, Transition } from '@headlessui/react';
+import { Menu, Transition } from "@headlessui/react";
 import {
 	BellIcon,
 	HomeIcon,
 	UserGroupIcon,
 	PuzzleIcon,
 	CalendarIcon,
-	ChartBarIcon
-} from '@heroicons/react/outline';
-import { Head } from '@inertiajs/inertia-react';
+	ChartBarIcon,
+} from "@heroicons/react/outline";
+import { Head } from "@inertiajs/inertia-react";
 
-const Dashboard: React.FC = () => {
+const Dashboard: React.VFC = () => {
 	const user = {
-		name: 'Tom Cook',
-		email: 'tom@example.com',
+		name: "Tom Cook",
+		email: "tom@example.com",
 		imageUrl:
-			'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+			"https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
 	};
 	const navigation = [
-		{ name: 'Dashboard', href: '#', current: true, icon: HomeIcon },
-		{ name: 'Students', href: '#', current: false, icon: UserGroupIcon },
-		{ name: 'Rooms', href: '#', current: false, icon: PuzzleIcon },
-		{ name: 'Calendar', href: '#', current: false, icon: CalendarIcon },
-		{ name: 'Reports', href: '#', current: false, icon: ChartBarIcon }
+		{ name: "Dashboard", href: "#", current: true, icon: HomeIcon },
+		{ name: "Students", href: "#", current: false, icon: UserGroupIcon },
+		{ name: "Rooms", href: "#", current: false, icon: PuzzleIcon },
+		{ name: "Calendar", href: "#", current: false, icon: CalendarIcon },
+		{ name: "Reports", href: "#", current: false, icon: ChartBarIcon },
 	];
 	const userNavigation = [
-		{ name: 'Your Profile', href: '#' },
-		{ name: 'Settings', href: '#' },
-		{ name: 'Sign out', href: '#' }
+		{ name: "Your Profile", href: "#" },
+		{ name: "Settings", href: "#" },
 	];
 
 	function classNames(...classes) {
-		return classes.filter(Boolean).join(' ');
+		return classes.filter(Boolean).join(" ");
+	}
+
+	function handleLogout(event) {
+		event.preventDefault();
+		Inertia.post("/logout");
 	}
 
 	return (
@@ -47,7 +52,7 @@ const Dashboard: React.FC = () => {
 					/>
 
 					<nav className="flex flex-col mx-2 space-y-2">
-						{navigation.map(navigationItem => {
+						{navigation.map((navigationItem) => {
 							const Icon = navigationItem.icon;
 							return (
 								<a
@@ -55,15 +60,20 @@ const Dashboard: React.FC = () => {
 									href={navigationItem.href}
 									className={classNames(
 										navigationItem.current
-											? 'bg-gray-900 text-white'
-											: 'text-gray-300 hover:bg-gray-700 hover:text-white',
-										'flex items-center space-x-3 px-3 py-2 rounded-md text-base font-medium'
+											? "bg-gray-900 text-white"
+											: "text-gray-300 hover:bg-gray-700 hover:text-white",
+										"flex items-center space-x-3 px-3 py-2 rounded-md text-base font-medium"
 									)}
 									aria-current={
-										navigationItem.current ? 'page' : undefined
+										navigationItem.current
+											? "page"
+											: undefined
 									}
 								>
-									<Icon className="h-6 w-6" aria-hidden="true" />
+									<Icon
+										className="h-6 w-6"
+										aria-hidden="true"
+									/>
 									<div>{navigationItem.name}</div>
 								</a>
 							);
@@ -79,8 +89,13 @@ const Dashboard: React.FC = () => {
 									type="button"
 									className="p-1 rounded-full text-gray-400 hover:text-gray-500"
 								>
-									<span className="sr-only">View notifications</span>
-									<BellIcon className="h-6 w-6" aria-hidden="true" />
+									<span className="sr-only">
+										View notifications
+									</span>
+									<BellIcon
+										className="h-6 w-6"
+										aria-hidden="true"
+									/>
 								</button>
 
 								{/* Profile dropdown */}
@@ -107,16 +122,16 @@ const Dashboard: React.FC = () => {
 										leaveTo="transform opacity-0 scale-95"
 									>
 										<Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-											{userNavigation.map(item => (
+											{userNavigation.map((item) => (
 												<Menu.Item key={item.name}>
 													{({ active }) => (
 														<a
 															href={item.href}
 															className={classNames(
 																active
-																	? 'bg-gray-100'
-																	: '',
-																'block px-4 py-2 text-sm text-gray-700'
+																	? "bg-gray-100"
+																	: "",
+																"block px-4 py-2 text-sm text-gray-700"
 															)}
 														>
 															{item.name}
@@ -124,6 +139,26 @@ const Dashboard: React.FC = () => {
 													)}
 												</Menu.Item>
 											))}
+
+											<Menu.Item key="sign-out">
+												{({ active }) => (
+													<form
+														onSubmit={handleLogout}
+													>
+														<button
+															type="submit"
+															className={classNames(
+																active
+																	? "bg-gray-100"
+																	: "",
+																"block w-full text-left px-4 py-2 text-sm text-gray-700"
+															)}
+														>
+															Sign out
+														</button>
+													</form>
+												)}
+											</Menu.Item>
 										</Menu.Items>
 									</Transition>
 								</Menu>
