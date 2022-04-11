@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-use Illuminate\Http\Request;
-
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RegisterController;
