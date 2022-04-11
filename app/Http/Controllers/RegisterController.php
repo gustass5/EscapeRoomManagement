@@ -17,6 +17,7 @@ class RegisterController extends Controller
 			"email" => [
 				"required",
 				"email",
+				"unique:users,email",
 				"regex:/[a-z0-9]+@(ogt013|roctilburg|onderwijsgroeptilburg)\.nl/i",
 			],
 			"password" => [
@@ -28,10 +29,6 @@ class RegisterController extends Controller
 				"confirmed",
 			],
 		]);
-
-		if (User::where("email", $credentials["email"])->first() !== null) {
-			return back()->withErrors(["email" => "Email already exists"]);
-		}
 
 		$newUser = User::create([
 			"name" => "user",
