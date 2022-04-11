@@ -15,9 +15,7 @@ Route::get("/", function () {
 Route::middleware(["guest"])->group(function () {
 	Route::get("/login", function () {
 		return Inertia::render("Login");
-	})
-		->name("login")
-		->middleware("guest");
+	})->name("login");
 
 	Route::post("/login", [LoginController::class, "authenticate"]);
 
