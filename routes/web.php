@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CreateRoomController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\LoginController;
@@ -31,6 +32,8 @@ Route::middleware(["auth"])->group(function () {
 		->middleware("auth");
 
 	Route::post("/logout", [LogoutController::class, "logout"]);
+
+	Route::get("/rooms/create", [CreateRoomController::class, "index"]);
 });
 
 Route::get("/welcome", function () {
