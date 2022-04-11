@@ -31,8 +31,26 @@ class DemoSeeder extends Seeder
 		Room::factory(8)->create([
 			"user_id" => $userA->id,
 		]);
-		Room::factory(8)->create([
+
+		Room::factory()->create([
 			"user_id" => $userB->id,
+			"name" => "Mathematics",
+		]);
+		Room::factory()->create([
+			"user_id" => $userB->id,
+			"name" => "Robotics",
+		]);
+		Room::factory()->create([
+			"user_id" => $userB->id,
+			"name" => "Geography",
+		]);
+		Room::factory()->create([
+			"user_id" => $userB->id,
+			"name" => "Engineering",
+		]);
+		Room::factory()->create([
+			"user_id" => $userB->id,
+			"name" => "Biology",
 		]);
 	}
 }
