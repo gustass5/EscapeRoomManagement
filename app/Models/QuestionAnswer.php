@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Domain\Room\Models\QuestionAnswer
+ * App\Models\QuestionAnswer
  *
  * @property int $id
  * @property int $question_id
@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $is_correct
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\QuestionAnswerFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionAnswer newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionAnswer newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|QuestionAnswer query()

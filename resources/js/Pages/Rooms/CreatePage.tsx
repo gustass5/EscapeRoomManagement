@@ -22,7 +22,7 @@ const CreatePage: React.FC = () => {
 			title="Create new room"
 			footer={
 				<Button
-					className="w-auto text-white bg-pink-700 hover:bg-pink-800"
+					className="!w-auto text-white bg-pink-700 hover:bg-pink-800"
 					type="submit"
 					disabled={processing}
 				>

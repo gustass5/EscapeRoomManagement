@@ -10,7 +10,7 @@ import {
 	CalendarIcon,
 	ChartBarIcon,
 } from "@heroicons/react/outline";
-import { Head } from "@inertiajs/inertia-react";
+import { Head, Link } from "@inertiajs/inertia-react";
 
 interface AuthenticatedLayoutInterface {
 	title: string;
@@ -28,9 +28,14 @@ export const AuthenticatedLayout: React.FC<AuthenticatedLayoutInterface> = ({
 	};
 
 	const navigation = [
-		{ name: "Dashboard", href: "#", current: true, icon: HomeIcon },
+		{
+			name: "Dashboard",
+			href: "/dashboard",
+			current: true,
+			icon: HomeIcon,
+		},
+		{ name: "Rooms", href: "/rooms", current: false, icon: PuzzleIcon },
 		{ name: "Students", href: "#", current: false, icon: UserGroupIcon },
-		{ name: "Rooms", href: "#", current: false, icon: PuzzleIcon },
 		{ name: "Calendar", href: "#", current: false, icon: CalendarIcon },
 		{ name: "Reports", href: "#", current: false, icon: ChartBarIcon },
 	];
@@ -134,7 +139,7 @@ export const AuthenticatedLayout: React.FC<AuthenticatedLayoutInterface> = ({
 											{userNavigation.map((item) => (
 												<Menu.Item key={item.name}>
 													{({ active }) => (
-														<a
+														<Link
 															href={item.href}
 															className={classNames(
 																active
@@ -144,7 +149,7 @@ export const AuthenticatedLayout: React.FC<AuthenticatedLayoutInterface> = ({
 															)}
 														>
 															{item.name}
-														</a>
+														</Link>
 													)}
 												</Menu.Item>
 											))}

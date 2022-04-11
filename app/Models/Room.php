@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Domain\Room\Models\Room
+ * App\Models\Room
  *
  * @property int $id
  * @property int $user_id
@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
  * @property-read int|null $questions_count
+ * @method static \Database\Factories\RoomFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Room newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Room newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Room query()

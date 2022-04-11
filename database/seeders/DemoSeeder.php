@@ -15,14 +15,24 @@ class DemoSeeder extends Seeder
 	 */
 	public function run()
 	{
-		/** @var User $user */
-		$user = User::factory()->create([
+		/** @var User $userA */
+		$userA = User::factory()->create([
 			"email" => "a@a",
 			"password" => bcrypt("a"),
 		]);
 
+		/** @var User $userB */
+		$userB = User::factory()->create([
+			"name" => "Petras",
+			"email" => "teacher@roctilburg.nl",
+			"password" => bcrypt("SE123!"),
+		]);
+
 		Room::factory(8)->create([
-			"user_id" => $user->id,
+			"user_id" => $userA->id,
+		]);
+		Room::factory(8)->create([
+			"user_id" => $userB->id,
 		]);
 	}
 }

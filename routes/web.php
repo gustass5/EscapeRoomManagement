@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CreateRoomController;
+use App\Http\Controllers\RoomsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\LoginController;
@@ -33,6 +34,7 @@ Route::middleware(["auth"])->group(function () {
 
 	Route::post("/logout", [LogoutController::class, "logout"]);
 
+	Route::get("/rooms", [RoomsController::class, "index"]);
 	Route::get("/rooms/create", [CreateRoomController::class, "index"]);
 });
 

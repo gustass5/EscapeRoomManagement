@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Domain\Room\Models\Question
+ * App\Models\Question
  *
  * @property int $id
  * @property int $room_id
@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\QuestionAnswer[] $answers
  * @property-read int|null $answers_count
+ * @method static \Database\Factories\QuestionFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Question newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Question newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Question query()
