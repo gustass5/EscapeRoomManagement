@@ -36,6 +36,7 @@ Route::middleware(["auth"])->group(function () {
 
 	Route::get("/rooms", [RoomsController::class, "index"]);
 	Route::get("/rooms/create", [CreateRoomController::class, "index"]);
+	Route::post("/rooms/create", [CreateRoomController::class, "create"]);
 });
 
 Route::get("/welcome", function () {
