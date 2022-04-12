@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +12,7 @@ use App\Models\User;
 
 class RegisterController extends Controller
 {
-	public function register(Request $request)
+	public function register(Request $request): RedirectResponse
 	{
 		$credentials = $request->validate([
 			"email" => [
