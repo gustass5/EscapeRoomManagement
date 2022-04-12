@@ -6,10 +6,16 @@ import { Panel } from "../../components/Panel";
 import { AuthenticatedLayout } from "../../layout/AuthenticatedLayout";
 
 const IndexPage: React.VFC = () => {
-	const { rooms } =
-		usePage<
-			Page<{ rooms: { id: number; name: string; description: string }[] }>
-		>().props;
+	const { rooms } = usePage<
+		Page<{
+			rooms: {
+				id: number;
+				name: string;
+				description: string;
+				created_at: string;
+			}[];
+		}>
+	>().props;
 
 	return (
 		<Panel
@@ -39,17 +45,26 @@ const IndexPage: React.VFC = () => {
 						>
 							Description
 						</th>
+						<th
+							scope="col"
+							className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6"
+						>
+							Creation date
+						</th>
 						<th className="w-[0.1%]" />
 					</tr>
 				</thead>
 				<tbody className="bg-white divide-y divide-gray-200">
-					{rooms.map(({ id, name, description }) => (
+					{rooms.map(({ id, name, description, created_at }) => (
 						<tr key={id} className="h-[59px]">
 							<td className="whitespace-nowrap px-4 text-sm sm:px-6 text-gray-900">
 								{name}
 							</td>
 							<td className="whitespace-nowrap px-4 text-sm sm:px-6 text-gray-900">
 								{description}
+							</td>
+							<td className="whitespace-nowrap px-4 text-sm sm:px-6 text-gray-900">
+								{created_at.split("T")[0]}
 							</td>
 							<td className="px-4 text-sm sm:px-6">
 								<Link
