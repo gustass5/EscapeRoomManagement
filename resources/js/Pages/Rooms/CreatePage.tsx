@@ -25,14 +25,14 @@ const CreatePage: React.FC = () => {
 					type="submit"
 					className="!w-auto text-white bg-pink-700 hover:bg-pink-800"
 					disabled={processing}
-					form="roomCreationFom"
+					form="roomCreationForm"
 				>
 					Create
 				</Button>
 			}
 		>
 			<form
-				id="roomCreationFom"
+				id="roomCreationForm"
 				className="space-y-6"
 				onSubmit={handleSubmit}
 			>
