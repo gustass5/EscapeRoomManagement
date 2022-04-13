@@ -22,15 +22,20 @@ const CreatePage: React.FC = () => {
 			title="Create new room"
 			footer={
 				<Button
-					handleClick={handleSubmit}
+					type="submit"
 					className="!w-auto text-white bg-pink-700 hover:bg-pink-800"
 					disabled={processing}
+					form="roomCreationFom"
 				>
 					Create
 				</Button>
 			}
 		>
-			<form className="space-y-6">
+			<form
+				id="roomCreationFom"
+				className="space-y-6"
+				onSubmit={handleSubmit}
+			>
 				<div className="rounded-md shadow-sm space-y-4">
 					<FormField
 						identifier="name"
