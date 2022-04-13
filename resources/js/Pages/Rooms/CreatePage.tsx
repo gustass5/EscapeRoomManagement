@@ -14,7 +14,7 @@ const CreatePage: React.FC = () => {
 
 	function handleSubmit(event) {
 		event.preventDefault();
-		post("/login");
+		post("/rooms/create");
 	}
 
 	return (
@@ -22,15 +22,20 @@ const CreatePage: React.FC = () => {
 			title="Create new room"
 			footer={
 				<Button
-					className="!w-auto text-white bg-pink-700 hover:bg-pink-800"
 					type="submit"
+					className="!w-auto text-white bg-pink-700 hover:bg-pink-800"
 					disabled={processing}
+					form="roomCreationForm"
 				>
 					Create
 				</Button>
 			}
 		>
-			<form className="space-y-6" onSubmit={handleSubmit}>
+			<form
+				id="roomCreationForm"
+				className="space-y-6"
+				onSubmit={handleSubmit}
+			>
 				<div className="rounded-md shadow-sm space-y-4">
 					<FormField
 						identifier="name"

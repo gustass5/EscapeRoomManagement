@@ -4,6 +4,7 @@ interface ButtonInterface {
 	type: "button" | "submit";
 	href: string | null;
 	className?: string;
+	form?: string | undefined;
 	disabled?: boolean;
 	handleClick?: () => void;
 }
@@ -13,6 +14,7 @@ export const Button: React.FC<ButtonInterface> = ({
 	href = null,
 	className,
 	disabled = false,
+	form = undefined,
 	handleClick,
 	children,
 }) => {
@@ -25,6 +27,7 @@ export const Button: React.FC<ButtonInterface> = ({
 			className={`${styles} ${className}`}
 			type={type}
 			href={href}
+			form={form}
 			onClick={handleClick}
 			disabled={disabled}
 		>
