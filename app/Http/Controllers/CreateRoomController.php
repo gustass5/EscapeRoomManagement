@@ -21,7 +21,7 @@ class CreateRoomController extends Controller
 
         $room = $request->validate(["name"=>["required"], "description" =>["required"]]);
 
-        Room::create(["name"=>$room['name'], "description" =>$room['description'], "visibility" => "PUBLIC", "user_id" => $user["id"]]);
+        $user->rooms()->create(["name"=>$room['name'], "description" =>$room['description'], "visibility" => "PUBLIC"]);
 
         return Inertia::render("Rooms/IndexPage", [
             "rooms" => $user->rooms->toArray(),
