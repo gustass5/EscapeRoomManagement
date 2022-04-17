@@ -12,6 +12,7 @@ const IndexPage: React.VFC = () => {
 				id: number;
 				name: string;
 				description: string;
+				access_code: string;
 				created_at: string;
 			}[];
 		}>
@@ -60,19 +61,27 @@ const IndexPage: React.VFC = () => {
 							<td className="whitespace-nowrap px-4 text-sm sm:px-6 text-gray-900">
 								{name}
 							</td>
-							<td className="whitespace-nowrap px-4 text-sm sm:px-6 text-gray-900">
+							<td className="px-4 text-sm sm:px-6 text-gray-900">
 								{description}
 							</td>
 							<td className="whitespace-nowrap px-4 text-sm sm:px-6 text-gray-900">
 								{created_at.split("T")[0]}
 							</td>
 							<td className="px-4 text-sm sm:px-6">
-								<Link
-									className="responsive-text-align text-sm font-medium transition duration-150 text-rose-600 hover:text-rose-500"
-									href={`/rooms/${id}/edit`}
-								>
-									Edit
-								</Link>
+								<div className="flex items-center space-x-4">
+									<Link
+										className="responsive-text-align text-sm font-medium transition duration-150 text-rose-600 hover:text-rose-500"
+										href={`/rooms/${id}/edit`}
+									>
+										Edit
+									</Link>
+									<button
+										className="responsive-text-align text-sm font-medium transition duration-150 text-rose-600 hover:text-rose-500"
+										type="button"
+									>
+										Share
+									</button>
+								</div>
 							</td>
 						</tr>
 					))}

@@ -34,7 +34,7 @@ Route::middleware(["auth"])->group(function () {
 
 	Route::post("/logout", [LogoutController::class, "logout"]);
 
-	Route::get("/rooms", [RoomsController::class, "index"]);
+	Route::get("/rooms", [RoomsController::class, "index"])->name("rooms");
 	Route::get("/rooms/create", [CreateRoomController::class, "index"]);
 	Route::post("/rooms/create", [CreateRoomController::class, "create"]);
 });
