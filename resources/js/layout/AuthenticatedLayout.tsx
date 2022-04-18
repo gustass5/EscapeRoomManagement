@@ -8,9 +8,10 @@ import {
 	CalendarIcon,
 	ChartBarIcon,
 } from "@heroicons/react/outline";
-import { Head } from "@inertiajs/inertia-react";
+import { Head, Link, usePage } from "@inertiajs/inertia-react";
 import { classNames } from "../helpers/classNames";
 import { UserMenu } from "../components/UserMenu";
+import { Page } from "@inertiajs/inertia";
 
 interface AuthenticatedLayoutInterface {
 	title: string;
@@ -20,17 +21,18 @@ export const AuthenticatedLayout: React.FC<AuthenticatedLayoutInterface> = ({
 	title,
 	children,
 }) => {
+	const { url: currentUrl } = usePage<Page>();
+
 	const navigation = [
 		{
 			name: "Dashboard",
 			href: "/dashboard",
-			current: true,
 			icon: HomeIcon,
 		},
-		{ name: "Rooms", href: "/rooms", current: false, icon: PuzzleIcon },
-		{ name: "Students", href: "#", current: false, icon: UserGroupIcon },
-		{ name: "Calendar", href: "#", current: false, icon: CalendarIcon },
-		{ name: "Reports", href: "#", current: false, icon: ChartBarIcon },
+		{ name: "Rooms", href: "/rooms", icon: PuzzleIcon },
+		{ name: "Students", href: "#", icon: UserGroupIcon },
+		{ name: "Calendar", href: "#", icon: CalendarIcon },
+		{ name: "Reports", href: "#", icon: ChartBarIcon },
 	];
 
 	return (
@@ -38,37 +40,38 @@ export const AuthenticatedLayout: React.FC<AuthenticatedLayoutInterface> = ({
 			<Head title={title} />
 			<div className="flex h-screen bg-gray-50">
 				<aside className="h-full w-[300px] bg-gray-800">
-					<img
-						className="w-48 mx-auto py-6"
-						src="/images/ROC-Tilburg-logo.png"
-						alt="ROC-Tilburg-logo"
-					/>
+					<Link href="/dashboard">
+						<img
+							className="w-48 mx-auto py-6"
+							src="/images/ROC-Tilburg-logo.png"
+							alt="ROC-Tilburg-logo"
+						/>
+					</Link>
 
 					<nav className="flex flex-col mx-2 space-y-2">
 						{navigation.map((navigationItem) => {
 							const Icon = navigationItem.icon;
+							const isActive =
+								navigationItem.href.startsWith(currentUrl);
+
 							return (
-								<a
+								<Link
 									key={navigationItem.name}
 									href={navigationItem.href}
 									className={classNames(
-										navigationItem.current
+										isActive
 											? "bg-gray-900 text-white"
 											: "text-gray-300 hover:bg-gray-700 hover:text-white",
 										"flex items-center space-x-3 px-3 py-2 rounded-md text-base font-medium"
 									)}
-									aria-current={
-										navigationItem.current
-											? "page"
-											: undefined
-									}
+									aria-current={isActive ? "page" : undefined}
 								>
 									<Icon
 										className="h-6 w-6"
 										aria-hidden="true"
 									/>
 									<div>{navigationItem.name}</div>
-								</a>
+								</Link>
 							);
 						})}
 					</nav>
