@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CreateRoomController;
+use App\Http\Controllers\EditRoomController;
 use App\Http\Controllers\RoomsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -36,6 +37,8 @@ Route::middleware(["auth"])->group(function () {
 
 	Route::get("/rooms", [RoomsController::class, "index"]);
 	Route::get("/rooms/create", [CreateRoomController::class, "index"]);
+    Route::get("/rooms/{room}/edit", [EditRoomController::class, "index"]);
+    Route::post("/rooms/{room}/edit", [EditRoomController::class, "update"]);
 	Route::post("/rooms/create", [CreateRoomController::class, "create"]);
 });
 
