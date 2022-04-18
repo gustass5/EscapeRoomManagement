@@ -1,7 +1,6 @@
 import React from "react";
-
-import { FormField } from "../../../components/FormField/FormField";
-import { FormError } from "../../../widgets/FormError";
+import { FormField } from "../components/FormField/FormField";
+import { FormError } from "./FormError";
 
 export const RoomForm: React.FC<{
 	// $$ Move into interface and from create page
