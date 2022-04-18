@@ -1,18 +1,24 @@
 import { useForm } from "@inertiajs/inertia-react";
 import React, { ReactElement } from "react";
+import { HasMany } from "../../components/HasMany/HasMany";
 import { Button } from "../../components/Button/Button";
-import { FormField } from "../../components/FormField/FormField";
 import { Panel } from "../../components/Panel";
 import { AuthenticatedLayout } from "../../layout/AuthenticatedLayout";
-import { FormError } from "../../widgets/FormError";
+import { RoomForm } from "../../widgets/RoomForm";
+import { QuestionInterface } from "../../helpers/RoomInterfaces";
 
 const CreatePage: React.FC = () => {
-	const { data, setData, post, processing, errors } = useForm({
+	const { data, setData, post, processing, errors } = useForm<{
+		name: string;
+		description: string;
+		questions: QuestionInterface[];
+	}>({
 		name: "",
 		description: "",
+		questions: [],
 	});
 
-	function handleSubmit(event) {
+	function handleSubmit(event: React.SyntheticEvent) {
 		event.preventDefault();
 		post("/rooms/create");
 	}
@@ -31,38 +37,25 @@ const CreatePage: React.FC = () => {
 				</Button>
 			}
 		>
-			<form
-				id="roomCreationForm"
-				className="space-y-6"
-				onSubmit={handleSubmit}
+			<RoomForm
+				data={data}
+				errors={errors}
+				handleSubmit={handleSubmit}
+				handleNameChange={(event: React.FormEvent<HTMLInputElement>) =>
+					setData("name", event.target.value.toString())
+				}
+				handleDescriptionChange={(
+					event: React.FormEvent<HTMLInputElement>
+				) => setData("description", event.target.value.toString())}
 			>
-				<div className="rounded-md shadow-sm space-y-4">
-					<FormField
-						identifier="name"
-						value={data.name}
-						handleChange={(event) =>
-							setData("name", event.target.value.toString())
-						}
-					>
-						Title
-					</FormField>
-					<FormError error={errors.name} />
-
-					<FormField
-						identifier="description"
-						value={data.description}
-						handleChange={(event) =>
-							setData(
-								"description",
-								event.target.value.toString()
-							)
-						}
-					>
-						Description
-					</FormField>
-					<FormError error={errors.description} />
-				</div>
-			</form>
+				<HasMany
+					setState={(
+						questions: { id: null | number; value: string }[]
+					) => {
+						setData("questions", questions);
+					}}
+				/>
+			</RoomForm>
 		</Panel>
 	);
 };
