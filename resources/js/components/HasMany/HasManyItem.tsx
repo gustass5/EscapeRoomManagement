@@ -1,11 +1,14 @@
 import React from "react";
 
+import { XIcon } from "@heroicons/react/outline";
+
 export const HasManyItem: React.VFC<{
 	index: number;
 	value: string;
 	updateItem: (event: any, index: number) => void;
-}> = ({ index, value, updateItem }) => (
-	<div>
+	removeItem: (index: number) => void;
+}> = ({ index, value, updateItem, removeItem }) => (
+	<div className="relative">
 		<input
 			type="text"
 			name="question"
@@ -14,6 +17,12 @@ export const HasManyItem: React.VFC<{
 			onChange={(event) => {
 				updateItem(event, index);
 			}}
+		/>
+		<XIcon
+			onClick={() => {
+				removeItem(index);
+			}}
+			className="absolute inset-y-0 right-0 h-5 w-5 m-2 cursor-pointer hover:text-pink-800"
 		/>
 	</div>
 );

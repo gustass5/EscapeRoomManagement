@@ -22,6 +22,10 @@ export const HasMany: React.VFC<{
 		setItems(newItems);
 	};
 
+	const removeItem = (index: number) => {
+		setItems(items.filter((_, itemIndex) => itemIndex !== index));
+	};
+
 	return (
 		<div>
 			<div className="flex items-center justify-between bg-gray-50 shadow px-4 py-1 rounded">
@@ -47,6 +51,9 @@ export const HasMany: React.VFC<{
 							value={item.value}
 							updateItem={(event, index) => {
 								updateItem(index, event.target.value);
+							}}
+							removeItem={(index) => {
+								removeItem(index);
 							}}
 						/>
 					);
