@@ -2,12 +2,13 @@ import { PlusIcon } from "@heroicons/react/outline";
 import React, { useState, useEffect } from "react";
 import { Button } from "../Button/Button";
 import { HasManyItem } from "./HasManyItem";
+import { HasManyItemInterface } from "./helpers/HasManyInterfaces";
 
 export const HasMany: React.VFC<{
-	initialItems?: { id: null | number; value: string }[];
-	setState: (items: { id: null | number; value: string }[]) => void;
+	initialItems?: HasManyItemInterface[];
+	setState: (items: HasManyItemInterface[]) => void;
 }> = ({ initialItems = [], setState }) => {
-	const [items, setItems] = useState<{ id: null | number; value: string }[]>([
+	const [items, setItems] = useState<HasManyItemInterface[]>([
 		...initialItems,
 	]);
 

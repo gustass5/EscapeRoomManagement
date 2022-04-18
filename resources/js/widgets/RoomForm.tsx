@@ -3,17 +3,15 @@ import { FormField } from "../components/FormField/FormField";
 import { FormError } from "./FormError";
 
 export const RoomForm: React.FC<{
-	// $$ Move into interface and from create page
 	data: {
 		name: string;
 		description: string;
 		questions: { id: null | number; value: string }[];
 	};
 	errors: Record<"name" | "description" | "questions", string>;
-	// $$ Rast event type
-	handleSubmit: (event: any) => void;
-	handleNameChange: (event: any) => void;
-	handleDescriptionChange: (event: any) => void;
+	handleSubmit: (event: React.SyntheticEvent) => void;
+	handleNameChange: (event: React.FormEvent<HTMLInputElement>) => void;
+	handleDescriptionChange: (event: React.FormEvent<HTMLInputElement>) => void;
 }> = ({
 	data,
 	errors,
