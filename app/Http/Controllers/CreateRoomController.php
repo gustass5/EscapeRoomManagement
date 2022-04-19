@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
+use Domain\Room\Enums\RoomVisibilityEnum;
 
 class CreateRoomController extends Controller
 {
@@ -27,12 +28,16 @@ class CreateRoomController extends Controller
 			"description" => ["required"],
 		]);
 
-		$user->rooms()->create([
+        $createdRoom = $user->rooms()->create([
 			"name" => $room["name"],
 			"description" => $room["description"],
 			"visibility" => "PUBLIC",
 			"access_code" => Str::random(64),
 		]);
+
+        collect($request['questions'])->each(function($question) use ($createdRoom){
+            $createdRoom->questions()->create(["question" => $question['value']]);
+        });
 
 		return redirect()->route("rooms");
 	}

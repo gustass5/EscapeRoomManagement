@@ -1,5 +1,7 @@
-import { useForm } from "@inertiajs/inertia-react";
 import React, { ReactElement } from "react";
+import { Page } from "@inertiajs/inertia";
+import { useForm, usePage } from "@inertiajs/inertia-react";
+
 import { HasMany } from "../../components/HasMany/HasMany";
 import { Button } from "../../components/Button/Button";
 import { Panel } from "../../components/Panel";
@@ -7,25 +9,39 @@ import { AuthenticatedLayout } from "../../layout/AuthenticatedLayout";
 import { RoomForm } from "../../widgets/RoomForm";
 import { QuestionInterface } from "../../helpers/RoomInterfaces";
 
-const CreatePage: React.FC = () => {
+const EditPage: React.FC = () => {
+	const { room, questions } = usePage<
+		Page<{
+			room: {
+				id: number;
+				name: string;
+				description: string;
+			};
+			questions: { id: number; question: string }[];
+		}>
+	>().props;
+
 	const { data, setData, post, processing, errors } = useForm<{
 		name: string;
 		description: string;
 		questions: QuestionInterface[];
 	}>({
-		name: "",
-		description: "",
-		questions: [],
+		name: room.name,
+		description: room.description,
+		questions: questions.map((question) => ({
+			id: question.id,
+			value: question.question,
+		})),
 	});
 
 	function handleSubmit(event: React.SyntheticEvent) {
 		event.preventDefault();
-		post("/rooms/create");
+		post(`/rooms/${room.id}/edit`);
 	}
 
 	return (
 		<Panel
-			title="Create new room"
+			title="Update room"
 			footer={
 				<Button
 					type="submit"
@@ -33,7 +49,7 @@ const CreatePage: React.FC = () => {
 					disabled={processing}
 					form="roomCreationForm"
 				>
-					Create
+					Update
 				</Button>
 			}
 		>
@@ -49,6 +65,7 @@ const CreatePage: React.FC = () => {
 				) => setData("description", event.target.value.toString())}
 			>
 				<HasMany
+					initialItems={data.questions}
 					setState={(
 						questions: { id: null | number; value: string }[]
 					) => {
@@ -60,7 +77,7 @@ const CreatePage: React.FC = () => {
 	);
 };
 
-(CreatePage as any).layout = (page: ReactElement) => {
+(EditPage as any).layout = (page: ReactElement) => {
 	return (
 		<AuthenticatedLayout title="Create new room">
 			{page}
@@ -68,4 +85,4 @@ const CreatePage: React.FC = () => {
 	);
 };
 
-export default CreatePage;
+export default EditPage;
