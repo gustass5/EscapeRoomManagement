@@ -15,8 +15,7 @@ class QuestionFactory extends Factory
 	public function configure(): QuestionFactory
 	{
 		return $this->afterCreating(function (Question $question) {
-			$amount = $this->faker->numberBetween(3, 4);
-
+			$amount = 4;
 			$correctAnswerIndex = $this->faker->numberBetween(0, $amount - 1);
 
 			for ($index = 0; $index < $amount; $index++) {

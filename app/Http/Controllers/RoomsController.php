@@ -14,7 +14,11 @@ class RoomsController extends Controller
 		$user = auth()->user();
 
 		return Inertia::render("Rooms/IndexPage", [
-			"rooms" => $user->rooms->toArray(),
+			"rooms" => $user
+				->rooms()
+				->orderByDesc("created_at")
+				->get()
+				->toArray(),
 		]);
 	}
 }
