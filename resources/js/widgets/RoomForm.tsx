@@ -1,12 +1,13 @@
 import React from "react";
 import { FormField } from "../components/FormField/FormField";
+import { QuestionInterface } from "../helpers/RoomInterfaces";
 import { FormError } from "./FormError";
 
 export const RoomForm: React.FC<{
 	data: {
 		name: string;
 		description: string;
-		questions: { id: null | number; value: string }[];
+		questions: QuestionInterface[];
 	};
 	errors: Record<"name" | "description" | "questions", string>;
 	handleSubmit: (event: React.SyntheticEvent) => void;

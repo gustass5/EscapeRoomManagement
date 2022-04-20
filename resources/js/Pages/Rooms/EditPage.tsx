@@ -10,14 +10,22 @@ import { RoomForm } from "../../widgets/RoomForm";
 import { QuestionInterface } from "../../helpers/RoomInterfaces";
 
 const EditPage: React.FC = () => {
-	const { room, questions } = usePage<
+	const { room } = usePage<
 		Page<{
 			room: {
 				id: number;
 				name: string;
 				description: string;
+				questions: {
+					id: number;
+					question: string;
+					answers: {
+						id: number;
+						answer: string;
+						is_correct: string;
+					}[];
+				}[];
 			};
-			questions: { id: number; question: string }[];
 		}>
 	>().props;
 
@@ -28,9 +36,14 @@ const EditPage: React.FC = () => {
 	}>({
 		name: room.name,
 		description: room.description,
-		questions: questions.map((question) => ({
+		questions: room.questions.map((question) => ({
 			id: question.id,
 			value: question.question,
+			answers: question.answers.map((answer) => ({
+				id: answer.id,
+				value: answer.answer,
+				isCorrect: answer.is_correct,
+			})),
 		})),
 	});
 
@@ -66,9 +79,7 @@ const EditPage: React.FC = () => {
 			>
 				<HasMany
 					initialItems={data.questions}
-					setState={(
-						questions: { id: null | number; value: string }[]
-					) => {
+					setState={(questions: QuestionInterface[]) => {
 						setData("questions", questions);
 					}}
 				/>
@@ -79,9 +90,7 @@ const EditPage: React.FC = () => {
 
 (EditPage as any).layout = (page: ReactElement) => {
 	return (
-		<AuthenticatedLayout title="Create new room">
-			{page}
-		</AuthenticatedLayout>
+		<AuthenticatedLayout title="Update room">{page}</AuthenticatedLayout>
 	);
 };
 

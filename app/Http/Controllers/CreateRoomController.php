@@ -10,6 +10,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
 use Domain\Room\Enums\RoomVisibilityEnum;
+use Illuminate\Support\Facades\DB;
 
 class CreateRoomController extends Controller
 {
@@ -36,7 +37,11 @@ class CreateRoomController extends Controller
 		]);
 
         collect($request['questions'])->each(function($question) use ($createdRoom){
-            $createdRoom->questions()->create(["question" => $question['value']]);
+            $createdQuestion = $createdRoom->questions()->create(["question" => $question['value']]);
+
+            collect($question['answers'])->each(function($answer) use ($createdQuestion){
+                $createdQuestion->answers()->create(["answer" => $answer["value"], "is_correct" => $answer["isCorrect"]]);
+            });
         });
 
 		return redirect()->route("rooms");
