@@ -17,8 +17,20 @@ export const HasMany: React.VFC<{
 	}, [items]);
 
 	const updateItem = (index: number, value: string) => {
-		const newItems = [...items];
+		const newItems = JSON.parse(JSON.stringify(items));
 		newItems[index].value = value;
+		setItems(newItems);
+	};
+
+	const updateAnswer = (
+		questionIndex: number,
+		answerIndex: number,
+		value: string
+	) => {
+		const newItems: HasManyItemInterface[] = JSON.parse(
+			JSON.stringify(items)
+		);
+		newItems[questionIndex].answers[answerIndex].value = value;
 		setItems(newItems);
 	};
 
@@ -27,14 +39,38 @@ export const HasMany: React.VFC<{
 	};
 
 	return (
-		<div>
-			<div className="flex items-center justify-between bg-gray-50 shadow px-4 py-1 rounded">
+		<div className="text-gray-800 border border-gray-50 shadow px-4 py-1 rounded">
+			<div className="flex items-center justify-between">
 				<div>Questions</div>
 				<div>
 					<Button
 						className="!w-auto text-white bg-pink-700 hover:bg-pink-800"
 						handleClick={() => {
-							setItems([...items, { id: null, value: "" }]);
+							setItems([
+								...items,
+								{
+									id: null,
+									value: "",
+									answers: [
+										{
+											value: "",
+											isCorrect: true,
+										},
+										{
+											value: "",
+											isCorrect: false,
+										},
+										{
+											value: "",
+											isCorrect: false,
+										},
+										{
+											value: "",
+											isCorrect: false,
+										},
+									],
+								},
+							]);
 						}}
 					>
 						<PlusIcon className="h-6 w-4" />
@@ -42,17 +78,25 @@ export const HasMany: React.VFC<{
 				</div>
 			</div>
 
-			<div className="space-y-2">
+			<div className="py-4 space-y-4">
 				{items.map((item, index) => {
 					return (
 						<HasManyItem
 							key={index}
 							index={index}
 							value={item.value}
-							updateItem={(event, index) => {
+							answers={item.answers}
+							updateItem={(event) => {
 								updateItem(index, event.target.value);
 							}}
-							removeItem={(index) => {
+							updateAnswer={(event, answerIndex) => {
+								updateAnswer(
+									index,
+									answerIndex,
+									event.target.value
+								);
+							}}
+							removeItem={() => {
 								removeItem(index);
 							}}
 						/>

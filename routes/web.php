@@ -35,9 +35,9 @@ Route::middleware(["auth"])->group(function () {
 
 	Route::post("/logout", [LogoutController::class, "logout"]);
 
-	Route::get("/rooms", [RoomsController::class, "index"])->name("rooms");
+	Route::get("/rooms", [RoomsController::class, "index"])->name('rooms');
 	Route::get("/rooms/create", [CreateRoomController::class, "index"]);
-    Route::get("/rooms/{room}/edit", [EditRoomController::class, "index"]);
+    Route::get("/rooms/{room}/edit", [EditRoomController::class, "index"])->name("rooms.edit");
     Route::post("/rooms/{room}/edit", [EditRoomController::class, "update"]);
 	Route::post("/rooms/create", [CreateRoomController::class, "create"]);
 });

@@ -49,9 +49,7 @@ const CreatePage: React.FC = () => {
 				) => setData("description", event.target.value.toString())}
 			>
 				<HasMany
-					setState={(
-						questions: { id: null | number; value: string }[]
-					) => {
+					setState={(questions: QuestionInterface[]) => {
 						setData("questions", questions);
 					}}
 				/>
