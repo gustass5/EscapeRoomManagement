@@ -1,5 +1,6 @@
+import { XIcon } from "@heroicons/react/outline";
 import { Page } from "@inertiajs/inertia";
-import { Link, usePage } from "@inertiajs/inertia-react";
+import { Link, useForm, usePage } from "@inertiajs/inertia-react";
 import React, { ReactElement } from "react";
 import { Button } from "../../components/Button/Button";
 import { Panel } from "../../components/Panel";
@@ -17,6 +18,13 @@ const IndexPage: React.VFC = () => {
 			}[];
 		}>
 	>().props;
+
+	const { post } = useForm();
+
+	const handleDelete = (event, id: number) => {
+		event.stopPropagation();
+		post(`/rooms/${id}/delete`);
+	};
 
 	return (
 		<Panel
@@ -80,6 +88,15 @@ const IndexPage: React.VFC = () => {
 										type="button"
 									>
 										Share
+									</button>
+									<button
+										className="responsive-text-align text-sm font-medium transition duration-150 text-black hover:text-rose-500"
+										type="button"
+										onClick={(event) =>
+											handleDelete(event, id)
+										}
+									>
+										<XIcon className=" w-5 h-5" />
 									</button>
 								</div>
 							</td>
