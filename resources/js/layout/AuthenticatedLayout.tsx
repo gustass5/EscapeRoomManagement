@@ -99,7 +99,7 @@ export const AuthenticatedLayout: React.FC<AuthenticatedLayoutInterface> = ({
 						</div>
 					</header>
 
-					<div className="w-full py-6 sm:px-6 lg:px-8 overflow-y-scroll">
+					<div className="w-full py-6 sm:px-6 lg:px-8">
 						{children}
 					</div>
 				</main>
