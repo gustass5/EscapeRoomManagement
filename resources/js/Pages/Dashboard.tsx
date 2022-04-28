@@ -1,11 +1,41 @@
 import React, { ReactElement } from "react";
+import { Chart } from "../components/Chart";
+import { Panel } from "../components/Panel";
 import { AuthenticatedLayout } from "../layout/AuthenticatedLayout";
 
 const Dashboard: React.VFC = () => {
 	return (
-		<div className="px-4 py-6 sm:px-0">
-			<div className="border-4 border-dashed border-gray-200 rounded-lg h-96" />
-		</div>
+		<Panel
+			title="Monthly submissions"
+			description="From 2021-04 to 2022-04"
+		>
+			<Chart
+				labels={[
+					"May",
+					"June",
+					"July",
+					"August",
+					"September",
+					"October",
+					"November",
+					"December",
+					"January 2022",
+					"February",
+					"March",
+					"April",
+				]}
+				xAxisLabel="Months"
+				yAxisLabel="Submissions"
+				stacked={true}
+				dataSets={[
+					{
+						label: "Submissions",
+						data: [14, 23, 4, 18, 20, 12, 8, 23, 9, 12, 15, 9],
+						backgroundColor: "rgb(190, 24, 93)",
+					},
+				]}
+			/>
+		</Panel>
 	);
 };
 
