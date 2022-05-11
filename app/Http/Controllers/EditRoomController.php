@@ -55,10 +55,13 @@ class EditRoomController extends Controller
 			collect($question["answers"])->each(function ($answer) use (
 				$updatedQuestion
 			) {
-				$updatedQuestion
-					->answers()
-					->where("id", $answer["id"])
-					->update(["answer" => $answer["value"]]);
+				$updatedQuestion->answers()->updateOrCreate(
+					["id" => $answer["id"]],
+					[
+						"answer" => $answer["value"],
+						"is_correct" => $answer["isCorrect"],
+					]
+				);
 			});
 		});
 
