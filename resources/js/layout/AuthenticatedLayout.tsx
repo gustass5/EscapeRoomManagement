@@ -77,7 +77,7 @@ export const AuthenticatedLayout: React.FC<AuthenticatedLayoutInterface> = ({
 					</nav>
 				</aside>
 
-				<main className="flex flex-col h-full w-full">
+				<main className="flex flex-col h-full w-full overflow-y-scroll">
 					<header className="bg-white shadow">
 						<div className="h-16  ml-4 flex items-center justify-end md:ml-6">
 							<div className="flex items-center justify-center mx-8">
