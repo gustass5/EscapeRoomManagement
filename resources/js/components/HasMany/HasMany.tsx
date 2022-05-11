@@ -53,18 +53,22 @@ export const HasMany: React.VFC<{
 									value: "",
 									answers: [
 										{
+											id: null,
 											value: "",
 											isCorrect: true,
 										},
 										{
+											id: null,
 											value: "",
 											isCorrect: false,
 										},
 										{
+											id: null,
 											value: "",
 											isCorrect: false,
 										},
 										{
+											id: null,
 											value: "",
 											isCorrect: false,
 										},
