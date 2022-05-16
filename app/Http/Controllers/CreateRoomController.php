@@ -27,22 +27,35 @@ class CreateRoomController extends Controller
 		$room = $request->validate([
 			"name" => ["required"],
 			"description" => ["required"],
+			"questions.*.value" => ["required"],
+			"questions.*.answers" => ["array", "min:4", "max:4"],
+			"questions.*.answers.*.value" => ["required"],
+			"questions.*.answers.*.isCorrect" => ["required", "boolean"],
 		]);
 
-        $createdRoom = $user->rooms()->create([
+		$createdRoom = $user->rooms()->create([
 			"name" => $room["name"],
 			"description" => $room["description"],
 			"visibility" => "PUBLIC",
 			"access_code" => Str::random(64),
 		]);
 
-        collect($request['questions'])->each(function($question) use ($createdRoom){
-            $createdQuestion = $createdRoom->questions()->create(["question" => $question['value']]);
+		collect($request["questions"])->each(function ($question) use (
+			$createdRoom
+		) {
+			$createdQuestion = $createdRoom
+				->questions()
+				->create(["question" => $question["value"]]);
 
-            collect($question['answers'])->each(function($answer) use ($createdQuestion){
-                $createdQuestion->answers()->create(["answer" => $answer["value"], "is_correct" => $answer["isCorrect"]]);
-            });
-        });
+			collect($question["answers"])->each(function ($answer) use (
+				$createdQuestion
+			) {
+				$createdQuestion->answers()->create([
+					"answer" => $answer["value"],
+					"is_correct" => $answer["isCorrect"],
+				]);
+			});
+		});
 
 		return redirect()->route("rooms");
 	}
