@@ -18,12 +18,13 @@ class GetRoomWithAccessCodeController
 
 		return ApiJsonResponse::make()
 			->setData([
-				"rooms" => [
+				"room" => [
 					...$room->only(["name", "description"]),
 					"questions" => $questions->map(
 						fn(Question $question) => [
-							...$question->only(["question"]),
+							...$question->only(["id", "question"]),
 							"answers" => $question->answers->map->only([
+                                "id",
 								"answer",
 								"is_correct",
 							]),

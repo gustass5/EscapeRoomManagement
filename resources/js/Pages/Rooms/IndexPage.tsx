@@ -1,7 +1,7 @@
-import { XIcon } from "@heroicons/react/outline";
+import { EyeIcon, EyeOffIcon, XIcon } from "@heroicons/react/outline";
 import { Page } from "@inertiajs/inertia";
 import { Link, useForm, usePage } from "@inertiajs/inertia-react";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { Button } from "../../components/Button/Button";
 import { Panel } from "../../components/Panel";
 import { AuthenticatedLayout } from "../../layout/AuthenticatedLayout";
@@ -19,11 +19,23 @@ const IndexPage: React.VFC = () => {
 		}>
 	>().props;
 
+	const [showAccessCodesFor, setShowAccessCodesFor] = useState<number[]>([]);
+
 	const { post } = useForm();
 
 	const handleDelete = (event, id: number) => {
 		event.stopPropagation();
 		post(`/rooms/${id}/delete`);
+	};
+
+	const toggleAccessCode = (roomId: number) => {
+		setShowAccessCodesFor((previousShowAccessCodesFor) => {
+			if (previousShowAccessCodesFor.includes(roomId)) {
+				return previousShowAccessCodesFor.filter((id) => id !== roomId);
+			}
+
+			return [...previousShowAccessCodesFor, roomId];
+		});
 	};
 
 	return (
@@ -44,19 +56,25 @@ const IndexPage: React.VFC = () => {
 					<tr>
 						<th
 							scope="col"
-							className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6"
+							className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6 whitespace-nowrap"
 						>
 							Title
 						</th>
 						<th
 							scope="col"
-							className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6"
+							className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6 whitespace-nowrap"
 						>
 							Description
 						</th>
 						<th
 							scope="col"
-							className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6"
+							className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6 whitespace-nowrap"
+						>
+							Access code
+						</th>
+						<th
+							scope="col"
+							className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6 whitespace-nowrap"
 						>
 							Creation date
 						</th>
@@ -64,44 +82,66 @@ const IndexPage: React.VFC = () => {
 					</tr>
 				</thead>
 				<tbody className="bg-white divide-y divide-gray-200">
-					{rooms.map(({ id, name, description, created_at }) => (
-						<tr key={id} className="h-[59px]">
-							<td className="whitespace-nowrap px-4 text-sm sm:px-6 text-gray-900">
-								{name}
-							</td>
-							<td className="px-4 text-sm sm:px-6 text-gray-900">
-								{description}
-							</td>
-							<td className="whitespace-nowrap px-4 text-sm sm:px-6 text-gray-900">
-								{created_at.split("T")[0]}
-							</td>
-							<td className="px-4 text-sm sm:px-6">
-								<div className="flex items-center space-x-4">
-									<Link
-										className="responsive-text-align text-sm font-medium transition duration-150 text-rose-600 hover:text-rose-500"
-										href={`/rooms/${id}/edit`}
-									>
-										Edit
-									</Link>
-									<button
-										className="responsive-text-align text-sm font-medium transition duration-150 text-rose-600 hover:text-rose-500"
-										type="button"
-									>
-										Share
-									</button>
-									<button
-										className="responsive-text-align text-sm font-medium transition duration-150 text-black hover:text-rose-500"
-										type="button"
-										onClick={(event) =>
-											handleDelete(event, id)
-										}
-									>
-										<XIcon className=" w-5 h-5" />
-									</button>
-								</div>
-							</td>
-						</tr>
-					))}
+					{rooms.map(
+						({
+							id,
+							name,
+							description,
+							access_code,
+							created_at,
+						}) => (
+							<tr key={id} className="h-[59px]">
+								<td className="whitespace-nowrap px-4 text-sm sm:px-6 text-gray-900">
+									{name}
+								</td>
+								<td className="px-4 text-sm sm:px-6 text-gray-900">
+									{description}
+								</td>
+								<td className="px-4 text-sm sm:px-6 text-gray-900 font-medium">
+									<div className="flex items-center space-x-1">
+										<span>
+											{showAccessCodesFor.includes(id)
+												? access_code
+												: "••••••"}
+										</span>
+										<button
+											type="button"
+											className="text-gray-600 hover:text-gray-500"
+											onClick={() => toggleAccessCode(id)}
+										>
+											{showAccessCodesFor.includes(id) ? (
+												<EyeOffIcon className="w-5 h-5" />
+											) : (
+												<EyeIcon className="w-5 h-5" />
+											)}
+										</button>
+									</div>
+								</td>
+								<td className="whitespace-nowrap px-4 text-sm sm:px-6 text-gray-900">
+									{created_at.split("T")[0]}
+								</td>
+								<td className="px-4 text-sm sm:px-6">
+									<div className="flex items-center space-x-4">
+										<Link
+											className="responsive-text-align text-sm font-medium transition duration-150 text-rose-600 hover:text-rose-500"
+											href={`/rooms/${id}/edit`}
+										>
+											Edit
+										</Link>
+										<button
+											className="responsive-text-align text-sm font-medium transition duration-150 text-black hover:text-rose-500"
+											type="button"
+											onClick={(event) =>
+												handleDelete(event, id)
+											}
+										>
+											<XIcon className=" w-5 h-5" />
+										</button>
+									</div>
+								</td>
+							</tr>
+						)
+					)}
 				</tbody>
 			</table>
 		</Panel>

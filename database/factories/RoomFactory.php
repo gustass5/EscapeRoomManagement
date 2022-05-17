@@ -38,7 +38,7 @@ class RoomFactory extends Factory
 			"visibility" => $this->faker->randomElement(
 				RoomVisibilityEnum::cases()
 			),
-			"access_code" => Str::random(64),
+			"access_code" => $this->faker->regexify('[A-Z]{2}') . $this->faker->numberBetween(1000, 9999),
 		];
 	}
 }
