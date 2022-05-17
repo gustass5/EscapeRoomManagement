@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Question;
 use App\Models\Room;
+use App\Models\RoomOpenEvent;
 use Domain\Room\Enums\RoomVisibilityEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -19,6 +20,12 @@ class RoomFactory extends Factory
 			Question::factory($this->faker->numberBetween(2, 6))->create([
 				"room_id" => $room->id,
 			]);
+
+            if ($this->faker->boolean) {
+                RoomOpenEvent::factory($this->faker->numberBetween(1, 6))->create([
+                    "room_id" => $room->id,
+                ]);
+            }
 		});
 	}
 
@@ -38,7 +45,7 @@ class RoomFactory extends Factory
 			"visibility" => $this->faker->randomElement(
 				RoomVisibilityEnum::cases()
 			),
-			"access_code" => Str::random(64),
+			"access_code" => $this->faker->regexify('[A-Z]{2}') . $this->faker->numberBetween(1000, 9999),
 		];
 	}
 }

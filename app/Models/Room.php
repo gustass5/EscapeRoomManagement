@@ -15,14 +15,18 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $name
  * @property string $description
  * @property RoomVisibilityEnum $visibility
+ * @property string $access_code
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RoomOpenEvent[] $openEvents
+ * @property-read int|null $open_events_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
  * @property-read int|null $questions_count
  * @method static \Database\Factories\RoomFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Room newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Room newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Room query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Room whereAccessCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereId($value)
@@ -48,5 +52,13 @@ class Room extends Model
 	public function questions(): HasMany
 	{
 		return $this->hasMany(Question::class);
+	}
+
+	/**
+	 * @return HasMany<RoomOpenEvent>
+	 */
+	public function openEvents(): HasMany
+	{
+		return $this->hasMany(RoomOpenEvent::class);
 	}
 }
