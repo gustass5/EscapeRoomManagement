@@ -16,6 +16,8 @@ class GetRoomWithAccessCodeController
 			->with("answers")
 			->get();
 
+        $room->openEvents()->create();
+
 		return ApiJsonResponse::make()
 			->setData([
 				"room" => [

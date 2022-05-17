@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $question_id
  * @property string $answer
- * @property int $is_correct
+ * @property bool $is_correct
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Database\Factories\QuestionAnswerFactory factory(...$parameters)
