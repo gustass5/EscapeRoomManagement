@@ -24,7 +24,10 @@ class EditRoomController extends Controller
 		$roomData = $request->validate([
 			"name" => ["required"],
 			"description" => ["required"],
-			"questions" => [],
+			"questions.*.value" => ["required"],
+			"questions.*.answers" => ["array", "min:4", "max:4"],
+			"questions.*.answers.*.value" => ["required"],
+			"questions.*.answers.*.isCorrect" => ["required", "boolean"],
 		]);
 		$room = Room::find($id);
 		$room->name = $roomData["name"];

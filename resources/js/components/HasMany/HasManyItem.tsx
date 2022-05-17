@@ -19,6 +19,7 @@ export const HasManyItem: React.VFC<{
 				type="text"
 				name="question"
 				value={value}
+				required
 				className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
 				onChange={(event) => {
 					updateItem(event);
@@ -39,6 +40,7 @@ export const HasManyItem: React.VFC<{
 						key={index}
 						type="text"
 						value={answer.value}
+						required
 						className={classNames(
 							answer.isCorrect
 								? "focus:border-green-500"
