@@ -20,7 +20,7 @@ export const Card: React.FC<CardInterface> = ({
 					{description}
 				</span>
 			</div>
-			<div className="flex items-center justify-center flex-1">
+			<div className="flex items-center justify-end flex-1 px-4">
 				{children}
 			</div>
 		</div>
