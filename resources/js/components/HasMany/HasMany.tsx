@@ -44,8 +44,15 @@ export const HasMany: React.VFC<{
 				<div>Questions</div>
 				<div>
 					<Button
-						className="!w-auto text-white bg-pink-700 hover:bg-pink-800"
+						className={`!w-auto text-white ${
+							items.length >= 11
+								? "bg-gray-500 cursor-not-allowed"
+								: "bg-pink-700 hover:bg-pink-800"
+						}`}
 						handleClick={() => {
+							if (items.length >= 11) {
+								return;
+							}
 							setItems([
 								...items,
 								{
