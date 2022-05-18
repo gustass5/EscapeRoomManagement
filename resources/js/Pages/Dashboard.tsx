@@ -13,7 +13,7 @@ import { Page } from "@inertiajs/inertia";
 
 import { Radar } from "react-chartjs-2";
 
-const ROOMS_COMPLETED = 5;
+const ROOMS_COMPLETED = 1;
 
 const Dashboard: React.VFC = () => {
 	const { roomCount, roomsOpened } = usePage<
@@ -68,7 +68,7 @@ const Dashboard: React.VFC = () => {
 				</Card>
 			</div>
 
-			<div className="flex mb-6">
+			<div className="flex mb-6 space-x-6">
 				<Panel
 					title="Rooms started"
 					description="From 2021-05-16 to 2022-05-22"
@@ -100,7 +100,7 @@ const Dashboard: React.VFC = () => {
 				<Panel
 					title="Spread of submitted answers"
 					description="April"
-					className=""
+					className="flex-none"
 				>
 					<Radar
 						data={{
