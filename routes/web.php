@@ -31,8 +31,11 @@ Route::middleware(["auth"])->group(function () {
 	Route::get("/dashboard", [DashboardController::class, "index"])->name(
 		"dashboard"
 	);
+
+	Route::get("/calendar", function () {
+		return Inertia::render("Calendar");
 	})
-		->name("dashboard")
+		->name("calendar")
 		->middleware("auth");
 
 	Route::post("/logout", [LogoutController::class, "logout"]);
