@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\DashboardController;
 
 Route::get("/", function () {
 	return redirect("login");
@@ -27,8 +28,9 @@ Route::middleware(["guest"])->group(function () {
 });
 
 Route::middleware(["auth"])->group(function () {
-	Route::get("/dashboard", function () {
-		return Inertia::render("Dashboard");
+	Route::get("/dashboard", [DashboardController::class, "index"])->name(
+		"dashboard"
+	);
 	})
 		->name("dashboard")
 		->middleware("auth");
