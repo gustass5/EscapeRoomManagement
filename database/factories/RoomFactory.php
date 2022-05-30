@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Question;
 use App\Models\Room;
+use App\Models\RoomResult;
 use App\Models\RoomOpenEvent;
 use Domain\Room\Enums\RoomVisibilityEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -26,6 +27,10 @@ class RoomFactory extends Factory
                     "room_id" => $room->id,
                 ]);
             }
+
+			RoomResult::factory($this->faker->numberBetween(0, 15))->create([
+				"room_id" => $room->id,
+			]);
 		});
 	}
 

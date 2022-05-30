@@ -5,6 +5,7 @@ namespace App\Models;
 use Domain\Room\Enums\RoomVisibilityEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -22,6 +23,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read int|null $open_events_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Question[] $questions
  * @property-read int|null $questions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RoomResult[] $results
+ * @property-read int|null $results_count
  * @method static \Database\Factories\RoomFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Room newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Room newQuery()
@@ -60,5 +63,13 @@ class Room extends Model
 	public function openEvents(): HasMany
 	{
 		return $this->hasMany(RoomOpenEvent::class);
+	}
+
+	/**
+	 * @return HasMany<RoomResult>
+	 */
+	public function results(): HasMany
+	{
+		return $this->hasMany(RoomResult::class);
 	}
 }
