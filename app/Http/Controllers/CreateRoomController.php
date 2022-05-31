@@ -37,7 +37,7 @@ class CreateRoomController extends Controller
 			"name" => $room["name"],
 			"description" => $room["description"],
 			"visibility" => "PUBLIC",
-			"access_code" => Str::random(64),
+			"access_code" => Str::upper(Str::random(6)),
 		]);
 
 		collect($request["questions"])->each(function ($question) use (
