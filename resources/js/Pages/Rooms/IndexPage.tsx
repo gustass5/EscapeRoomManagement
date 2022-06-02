@@ -124,6 +124,12 @@ const IndexPage: React.VFC = () => {
 									<div className="flex items-center space-x-4">
 										<Link
 											className="responsive-text-align text-sm font-medium transition duration-150 text-rose-600 hover:text-rose-500"
+											href={`/rooms/dashboard`}
+										>
+											View
+										</Link>
+										<Link
+											className="responsive-text-align text-sm font-medium transition duration-150 text-rose-600 hover:text-rose-500"
 											href={`/rooms/${id}/edit`}
 										>
 											Edit

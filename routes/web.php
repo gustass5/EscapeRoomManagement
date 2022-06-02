@@ -33,6 +33,12 @@ Route::middleware(["auth"])->group(function () {
 		->name("dashboard")
 		->middleware("auth");
 
+	Route::get("/rooms/dashboard", function () {
+		return Inertia::render("RoomDashboard");
+	})
+		->name("room-dashboard")
+		->middleware("auth");
+
 	Route::post("/logout", [LogoutController::class, "logout"]);
 
 	Route::get("/rooms", [RoomsController::class, "index"])->name("rooms");
