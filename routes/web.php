@@ -29,9 +29,11 @@ Route::middleware(["guest"])->group(function () {
 Route::middleware(["auth"])->group(function () {
 	Route::get("/dashboard", function () {
 		return Inertia::render("Dashboard");
-	})
-		->name("dashboard")
-		->middleware("auth");
+	})->name("dashboard");
+
+	Route::get("/rooms/dashboard", function () {
+		return Inertia::render("RoomDashboard");
+	})->name("room-dashboard");
 
 	Route::post("/logout", [LogoutController::class, "logout"]);
 

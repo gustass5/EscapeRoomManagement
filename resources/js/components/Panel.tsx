@@ -7,6 +7,7 @@ interface PanelInterface {
 	footer?: ReactElement;
 	actions?: ReactElement;
 	className?: string;
+	contentStyling?: string;
 }
 
 export const Panel: React.FC<PanelInterface> = ({
@@ -16,6 +17,7 @@ export const Panel: React.FC<PanelInterface> = ({
 	footer = null,
 	actions = null,
 	className = "",
+	contentStyling = "",
 	children,
 }) => {
 	return (
@@ -43,7 +45,9 @@ export const Panel: React.FC<PanelInterface> = ({
 				</div>
 			)}
 
-			<div className={noPadding ? "" : "p-4 sm:p-6"}>{children}</div>
+			<div className={noPadding ? "" : `p-4 sm:p-6 ${contentStyling}`}>
+				{children}
+			</div>
 
 			{footer !== null && (
 				<div className="flex space-x-3 justify-end bg-gray-50 px-4 py-3 sm:px-6 lg:rounded-b-md">
