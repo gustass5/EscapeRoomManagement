@@ -6,98 +6,87 @@ import {
 	SortAscendingIcon,
 	SortDescendingIcon,
 } from "@heroicons/react/solid";
-import React, { ReactElement } from "react";
-import { Card } from "../components/Card/Card";
-import { Panel } from "../components/Panel";
-import { AuthenticatedLayout } from "../layout/AuthenticatedLayout";
-
-const ROOMS_COMPLETED = 25;
-
-const submissions = [
-	{
-		id: 0,
-		name: "Mr. Kadagys",
-		count: 15,
-		time: "9 min",
-		created_at: "2022-05-01T12:00:00",
-	},
-	{
-		id: 1,
-		name: "Mr. Domantas",
-		count: 1,
-		time: "90 min",
-		created_at: "2022-05-01T12:00:00",
-	},
-	{
-		id: 2,
-		name: "Ponas Armintas",
-		count: 10,
-		time: "15 min",
-		created_at: "2022-05-01T12:00:00",
-	},
-	{
-		id: 3,
-		name: "Mr. Krabs",
-		count: 10,
-		time: "12 min",
-		created_at: "2022-05-01T12:00:00",
-	},
-	{
-		id: 4,
-		name: "Anonymous",
-		count: 13,
-		time: "22 min",
-		created_at: "2022-05-01T12:00:00",
-	},
-	{
-		id: 5,
-		name: "Anonymous",
-		count: 15,
-		time: "16 min",
-		created_at: "2022-05-01T12:00:00",
-	},
-	{
-		id: 6,
-		name: "Anonymous",
-		count: 11,
-		time: "15 min",
-		created_at: "2022-05-01T12:00:00",
-	},
-	{
-		id: 7,
-		name: "Anonymous",
-		count: 5,
-		time: "10 min",
-		created_at: "2022-05-01T12:00:00",
-	},
-];
+import { Page } from "@inertiajs/inertia";
+import { usePage } from "@inertiajs/inertia-react";
+import React, { ReactElement, useState, useEffect } from "react";
+import { Card } from "../../components/Card/Card";
+import { Panel } from "../../components/Panel";
+import { AuthenticatedLayout } from "../../layout/AuthenticatedLayout";
 
 const RoomDashboard: React.VFC = () => {
+	const [state, setState] = useState({
+		minTime: 0,
+		maxTime: 0,
+		averageTime: 0,
+	});
+
+	const { room, questionCount, results, roomsOpened } = usePage<
+		Page<{
+			room: any;
+			questionCount: number;
+			results: {
+				id: number;
+				room_id: number;
+				name: string;
+				correct_answers_amount: number;
+				completion_time: number;
+				created_at: string;
+			}[];
+			roomsOpened: number;
+		}>
+	>().props;
+
+	useEffect(() => {
+		if (results.length <= 0) {
+			return;
+		}
+
+		const minTime = results.reduce(
+			(current, next) =>
+				current < next.completion_time ? current : next.completion_time,
+			1000000000
+		);
+		const maxTime = results.reduce(
+			(current, next) =>
+				current > next.completion_time ? current : next.completion_time,
+			0
+		);
+
+		const averageTime = (
+			results.reduce(
+				(current, next) => current + next.completion_time,
+				0
+			) / results.length
+		).toFixed(1);
+
+		setState({ minTime, maxTime, averageTime });
+	}, [results]);
+
 	return (
 		<React.Fragment>
 			<div className="flex space-between space-x-6 mb-6">
-				<Card title={`Demo Room`} description="GARAGE">
+				<Card title={room.name} description="GARAGE">
 					<InformationCircleIcon className="w-20 h-20 text-blue-500" />
 				</Card>
-				<Card title={`17 min`} description="AVERAGE TIME">
-					<ClockIcon className="w-20 h-20  text-blue-500" />
+				<Card
+					title={`${state.averageTime} min`}
+					description="AVERAGE TIME"
+				>
+					<ClockIcon className="w-20 h-20 text-blue-500" />
 				</Card>
-				<Card title={`9 min`} description="FASTEST TIME">
+				<Card title={`${state.minTime} min`} description="FASTEST TIME">
 					<SortAscendingIcon className="w-20 h-20 text-green-500" />
 				</Card>
 			</div>
 
 			<div className="flex space-between space-x-6 mb-6">
-				<Card title={`35`} description="ROOMS STARTED">
+				<Card title={`${roomsOpened}`} description="ROOMS STARTED">
 					<PuzzleIcon className="w-20 h-20 text-pink-600" />
 				</Card>
-				<Card
-					title={`${ROOMS_COMPLETED}`}
-					description="ROOMS COMPLETED"
-				>
+				<Card title={`${results.length}`} description="ROOMS COMPLETED">
 					<CheckCircleIcon className="w-20 h-20 text-green-500" />
 				</Card>
-				<Card title={`90 min`} description="LONGEST TIME">
+				<Card title={`${state.maxTime} min`} description="LONGEST TIME">
 					<SortDescendingIcon className="w-20 h-20 text-red-600" />
 				</Card>
 			</div>
@@ -134,17 +123,24 @@ const RoomDashboard: React.VFC = () => {
 						</tr>
 					</thead>
 					<tbody className="bg-white divide-y divide-gray-200">
-						{submissions.map(
-							({ id, name, count, time, created_at }) => (
+						{results.map(
+							({
+								id,
+								name,
+								correct_answers_amount,
+								completion_time,
+								created_at,
+							}) => (
 								<tr key={id} className="h-[59px]">
 									<td className="whitespace-nowrap px-4 text-sm sm:px-6 text-gray-900">
 										{name}
 									</td>
 									<td className="px-4 text-sm sm:px-6 text-gray-900">
-										{count} / 15
+										{correct_answers_amount} /{" "}
+										{questionCount}
 									</td>
 									<td className="px-4 text-sm sm:px-6 text-gray-900 font-medium">
-										{time}
+										{completion_time} min
 									</td>
 									<td className="whitespace-nowrap px-4 text-sm sm:px-6 text-gray-900">
 										{created_at.split("T")[0]}
