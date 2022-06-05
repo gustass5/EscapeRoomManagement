@@ -16,7 +16,7 @@ class QuestionFactory extends Factory
 	{
 		return $this->afterCreating(function (Question $question) {
 			$amount = 4;
-			$correctAnswerIndex = $this->faker->numberBetween(0, $amount - 1);
+			$correctAnswerIndex = 0;
 
 			for ($index = 0; $index < $amount; $index++) {
 				QuestionAnswer::factory()->create([
