@@ -16,7 +16,7 @@ return new class extends Migration {
 			$table->id();
 			$table->foreignId("room_id");
 			$table->string("name");
-			$table->integer("correct_answers_amount");
+			$table->integer("invalid_attempts");
 			$table->integer("completion_time");
 			$table->timestamps();
 		});

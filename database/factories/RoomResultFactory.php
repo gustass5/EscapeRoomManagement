@@ -18,7 +18,7 @@ class RoomResultFactory extends Factory
 	{
 		return [
 			"name" => "Anonymous",
-			"correct_answers_amount" => $this->faker->numberBetween(0, 10),
+			"invalid_attempts" => $this->faker->numberBetween(0, 10),
 			"completion_time" => $this->faker->numberBetween(4, 45),
 		];
 	}

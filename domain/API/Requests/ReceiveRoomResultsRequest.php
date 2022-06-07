@@ -26,8 +26,8 @@ class ReceiveRoomResultsRequest extends FormRequest
 	{
 		return [
 			"name" => ["required", "string", "max:256"],
-			"description" => ["required", "string", "max:1000"],
-			"incorrectAnswer" => ["required", "integer", "min:0"],
+			"invalid_attempts" => ["required", "integer", "min:0"],
+			"completion_time" => ["required", "integer", "min:0"],
 		];
 	}
 }

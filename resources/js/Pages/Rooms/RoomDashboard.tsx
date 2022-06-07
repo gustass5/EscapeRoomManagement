@@ -28,7 +28,7 @@ const RoomDashboard: React.VFC = () => {
 				id: number;
 				room_id: number;
 				name: string;
-				correct_answers_amount: number;
+				invalid_attempts: number;
 				completion_time: number;
 				created_at: string;
 			}[];
@@ -105,7 +105,7 @@ const RoomDashboard: React.VFC = () => {
 								scope="col"
 								className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6 whitespace-nowrap"
 							>
-								Correct asnwers count
+								Invalid attempts count
 							</th>
 							<th
 								scope="col"
@@ -127,7 +127,7 @@ const RoomDashboard: React.VFC = () => {
 							({
 								id,
 								name,
-								correct_answers_amount,
+								invalid_attempts,
 								completion_time,
 								created_at,
 							}) => (
@@ -136,8 +136,7 @@ const RoomDashboard: React.VFC = () => {
 										{name}
 									</td>
 									<td className="px-4 text-sm sm:px-6 text-gray-900">
-										{correct_answers_amount} /{" "}
-										{questionCount}
+										{invalid_attempts}
 									</td>
 									<td className="px-4 text-sm sm:px-6 text-gray-900 font-medium">
 										{completion_time} min

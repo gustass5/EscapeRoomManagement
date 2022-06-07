@@ -15,19 +15,15 @@ class ReceiveRoomResultsController
 	): JsonResponse {
 		/** @var array{
 		 *     name: string,
-		 *     correctAnswers: int
+		 *     invalidAttempts: int
 		 *     completionTime: int
 		 * } $validated
 		 */
 		$validated = $request->validated();
 
-		$totalAnswersAmount = $room->questions()->count();
-		$correctAnswersAmount =
-			$totalAnswersAmount - $validated["incorrectAnswer"];
-
 		$room->results()->create([
 			"name" => $validated["name"],
-			"correct_answers_amount" => $validated["correctAnswers"],
+			"invalid_attempts" => $validated["invalidAttempts"],
 			"completion_time" => $validated["completionTime"],
 		]);
 
