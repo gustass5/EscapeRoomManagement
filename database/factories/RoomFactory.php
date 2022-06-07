@@ -18,17 +18,19 @@ class RoomFactory extends Factory
 	public function configure(): RoomFactory
 	{
 		return $this->afterCreating(function (Room $room) {
-			Question::factory($this->faker->numberBetween(2, 6))->create([
+			Question::factory(10)->create([
 				"room_id" => $room->id,
 			]);
 
-            if ($this->faker->boolean) {
-                RoomOpenEvent::factory($this->faker->numberBetween(1, 6))->create([
-                    "room_id" => $room->id,
-                ]);
-            }
+			if ($this->faker->boolean) {
+				RoomOpenEvent::factory(
+					$this->faker->numberBetween(1, 6)
+				)->create([
+					"room_id" => $room->id,
+				]);
+			}
 
-			RoomResult::factory($this->faker->numberBetween(0, 15))->create([
+			RoomResult::factory($this->faker->numberBetween(0, 10))->create([
 				"room_id" => $room->id,
 			]);
 		});
@@ -50,7 +52,9 @@ class RoomFactory extends Factory
 			"visibility" => $this->faker->randomElement(
 				RoomVisibilityEnum::cases()
 			),
-			"access_code" => $this->faker->regexify('[A-Z]{2}') . $this->faker->numberBetween(1000, 9999),
+			"access_code" =>
+				$this->faker->regexify("[A-Z]{2}") .
+				$this->faker->numberBetween(1000, 9999),
 		];
 	}
 }

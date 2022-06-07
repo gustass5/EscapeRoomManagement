@@ -3,6 +3,8 @@
 use App\Http\Controllers\CreateRoomController;
 use App\Http\Controllers\EditRoomController;
 use App\Http\Controllers\RoomsController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RoomDashboardController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\LoginController;
@@ -27,13 +29,14 @@ Route::middleware(["guest"])->group(function () {
 });
 
 Route::middleware(["auth"])->group(function () {
-	Route::get("/dashboard", function () {
-		return Inertia::render("Dashboard");
-	})->name("dashboard");
+	Route::get("/dashboard", [DashboardController::class, "index"])->name(
+		"dashboard"
+	);
 
-	Route::get("/rooms/dashboard", function () {
-		return Inertia::render("RoomDashboard");
-	})->name("room-dashboard");
+	Route::get("/rooms/{room}/dashboard", [
+		RoomDashboardController::class,
+		"index",
+	])->name("room-dashboard");
 
 	Route::post("/logout", [LogoutController::class, "logout"]);
 

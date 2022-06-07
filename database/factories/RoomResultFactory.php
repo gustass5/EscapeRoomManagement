@@ -16,16 +16,10 @@ class RoomResultFactory extends Factory
 	 */
 	public function definition()
 	{
-		$totalAnswersAmount = $this->faker->numberBetween(3, 4);
-
 		return [
-			"name" => $this->faker->text(15),
-			"description" => $this->faker->text(100),
-			"total_answers_amount" => $totalAnswersAmount,
-			"correct_answers_amount" => $this->faker->numberBetween(
-				0,
-				$totalAnswersAmount
-			),
+			"name" => "Anonymous",
+			"invalid_attempts" => $this->faker->numberBetween(0, 10),
+			"completion_time" => $this->faker->numberBetween(4, 45),
 		];
 	}
 }

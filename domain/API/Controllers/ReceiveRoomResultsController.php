@@ -15,21 +15,16 @@ class ReceiveRoomResultsController
 	): JsonResponse {
 		/** @var array{
 		 *     name: string,
-		 *     description: string,
-		 *     incorrectAnswer: int
+		 *     invalidAttempts: int
+		 *     completionTime: int
 		 * } $validated
 		 */
 		$validated = $request->validated();
 
-		$totalAnswersAmount = $room->questions()->count();
-		$correctAnswersAmount =
-			$totalAnswersAmount - $validated["incorrectAnswer"];
-
 		$room->results()->create([
 			"name" => $validated["name"],
-			"description" => $validated["description"],
-			"correct_answers_amount" => $correctAnswersAmount,
-			"total_answers_amount" => $totalAnswersAmount,
+			"invalid_attempts" => $validated["invalidAttempts"],
+			"completion_time" => $validated["completionTime"],
 		]);
 
 		return ApiJsonResponse::make()->export();

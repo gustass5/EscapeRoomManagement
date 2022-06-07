@@ -1,42 +1,53 @@
 import { CheckCircleIcon, ClockIcon, PuzzleIcon } from "@heroicons/react/solid";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState, useEffect } from "react";
 import { Card } from "../components/Card/Card";
 import { Panel } from "../components/Panel";
 import { Chart as ChartComponent } from "../components/Chart";
 import { AuthenticatedLayout } from "../layout/AuthenticatedLayout";
 
 import { Doughnut, Chart } from "react-chartjs-2";
+import { usePage } from "@inertiajs/inertia-react";
+import { Page } from "@inertiajs/inertia";
 
-const ROOMS_COMPLETED = 5;
-const AVERAGE_TIME = 18;
-
-const GARAGES_CREATED = [2, 1, 2, 3, 4, 5, 6];
-const LABORATORIES_CREATED = [2, 2, 6, 4, 2, 3, 1];
-
-const GARAGE_LABELS = ["Demo Room", "Engineering", "Biology"];
+const LABORATORIES_OPENED_THIS_WEEK = [0, 0, 1, 12, 0, 14, 0];
 
 const LABORATORY_LABELS = ["Mathematics", "Robotics", "Geography"];
-
-const GARAGE_TIMES = [9, 17, 10];
 
 const LABORATORY_TIMES = [23, 27, 25];
 
 const Dashboard: React.VFC = () => {
+	const {
+		roomsOpened,
+		roomsOpenedThisWeek,
+		roomsCompleted,
+		averageTime,
+		chartSubtitle,
+		roomLabels,
+		roomTimes,
+	} = usePage<
+		Page<{
+			roomsOpened: number;
+			roomsOpenedThisWeek: number[];
+			roomsCompleted: number;
+			averageTime: number;
+			chartSubtitle: string;
+			roomLabels: string[];
+			roomTimes: number[];
+		}>
+	>().props;
+
 	return (
 		<React.Fragment>
 			<div className="flex space-between space-x-6 mb-6">
-				<Card title={`100`} description="TOTAL ROOMS CREATED">
+				<Card title={`${roomsOpened}`} description="ROOMS STARTED">
 					<PuzzleIcon className="w-20 h-20 text-pink-600" />
 				</Card>
-				<Card
-					title={`${ROOMS_COMPLETED}`}
-					description="TOTAL ROOMS COMPLETED"
-				>
+				<Card title={`${roomsCompleted}`} description="ROOMS COMPLETED">
 					<CheckCircleIcon className="w-20 h-20 text-green-500" />
 				</Card>
 				<Card
-					title={`${AVERAGE_TIME} min`}
-					description="AVERAGE TIME SPENT PER ROOM"
+					title={`${averageTime} min`}
+					description="AVERAGE TIME SPENT"
 				>
 					<ClockIcon className="w-20 h-20  text-blue-500" />
 				</Card>
@@ -45,7 +56,7 @@ const Dashboard: React.VFC = () => {
 			<div className="flex mb-6 space-x-6">
 				<Panel
 					title="Rooms started"
-					description="From 2021-05-16 to 2022-05-22"
+					description={chartSubtitle}
 					className="flex-1"
 				>
 					<ChartComponent
@@ -64,12 +75,12 @@ const Dashboard: React.VFC = () => {
 						dataSets={[
 							{
 								label: "Garage",
-								data: GARAGES_CREATED,
+								data: roomsOpenedThisWeek,
 								backgroundColor: "rgba(190, 24, 93, 0.8)",
 							},
 							{
 								label: "Laboratory",
-								data: LABORATORIES_CREATED,
+								data: LABORATORIES_OPENED_THIS_WEEK,
 								backgroundColor: "rgba(53, 162, 235, 0.8)",
 							},
 						]}
@@ -78,7 +89,7 @@ const Dashboard: React.VFC = () => {
 
 				<Panel
 					title="Rooms started"
-					description="From 2021-05-16 to 2022-05-22"
+					description={chartSubtitle}
 					className="flex-none"
 				>
 					<Doughnut
@@ -87,16 +98,7 @@ const Dashboard: React.VFC = () => {
 							datasets: [
 								{
 									label: "Created this week",
-									data: [
-										GARAGES_CREATED.reduce(
-											(sum, next) => sum + next,
-											0
-										),
-										LABORATORIES_CREATED.reduce(
-											(sum, next) => sum + next,
-											0
-										),
-									],
+									data: [roomsOpened, 0],
 									backgroundColor: [
 										"rgba(190, 24, 93, 0.9)",
 										"rgba(53, 162, 235, 0.9)",
@@ -123,7 +125,7 @@ const Dashboard: React.VFC = () => {
 					<Chart
 						type="bar"
 						data={{
-							labels: GARAGE_LABELS,
+							labels: roomLabels,
 							datasets: [
 								{
 									type: "line" as const,
@@ -131,15 +133,13 @@ const Dashboard: React.VFC = () => {
 									borderColor: "rgb(255, 99, 132)",
 									borderWidth: 2,
 									fill: false,
-									data: GARAGE_LABELS.map(
-										(_) => AVERAGE_TIME
-									),
+									data: roomLabels.map((_) => averageTime),
 								},
 								{
 									type: "bar" as const,
 									label: "Average time (min)",
 									backgroundColor: "rgba(190, 24, 93, 0.9)",
-									data: GARAGE_TIMES,
+									data: roomTimes,
 									borderColor: "white",
 									borderWidth: 2,
 								},
@@ -173,7 +173,7 @@ const Dashboard: React.VFC = () => {
 									borderWidth: 2,
 									fill: false,
 									data: LABORATORY_LABELS.map(
-										(_) => AVERAGE_TIME
+										(_) => averageTime
 									),
 								},
 								{
