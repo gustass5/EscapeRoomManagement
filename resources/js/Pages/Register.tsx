@@ -10,7 +10,7 @@ const Register: React.FC = () => {
 	const { data, setData, post, processing, errors } = useForm({
 		email: "",
 		password: "",
-		passwordConfirmation: "",
+		password_confirmation: "",
 	});
 
 	function handleSubmit(event) {
@@ -58,12 +58,12 @@ const Register: React.FC = () => {
 						<FormError error={errors.password} />
 
 						<FormField
-							identifier="confirm-password"
+							identifier="password_confirmation"
 							type="password"
-							value={data.passwordConfirmation}
+							value={data.password_confirmation}
 							handleChange={(event) =>
 								setData(
-									"passwordConfirmation",
+									"password_confirmation",
 									event.target.value.toString()
 								)
 							}
