@@ -56,12 +56,9 @@ class DashboardController extends Controller
 		);
 
 		$roomTimes = $rooms->map(function ($roomId) {
-			if (RoomResult::where("room_id", $roomId)->count() <= 0) {
-				return 0;
-			}
-
 			return number_format(
-				RoomResult::where("room_id", $roomId)->avg("completion_time"),
+				RoomResult::where("room_id", $roomId)->avg("completion_time") ??
+					0,
 				2
 			);
 		});
@@ -70,7 +67,7 @@ class DashboardController extends Controller
 			"roomsOpened" => $roomsOpenedCount,
 			"roomsOpenedThisWeek" => $roomsOpenedThisWeek,
 			"roomsCompleted" => $roomsCompletedCount,
-			"averageTime" => number_format($averageTime, 2),
+			"averageTime" => number_format($averageTime ?? 0, 2),
 			"chartSubtitle" => "From " . $weekStartDate . " to " . $weekEndDate,
 			"roomLabels" => $rooms->keys(),
 			"roomTimes" => $roomTimes,
