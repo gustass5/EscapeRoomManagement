@@ -27,11 +27,10 @@ class DashboardController extends Controller
 		$weekEndDate = $now->endOfWeek()->format("Y-m-d");
 		$period = CarbonPeriod::create($weekStartDate, "1 day", $weekEndDate);
 
-		$roomsOpenedThisWeek = [];
+		$roomsOpenedThisWeek = collect([]);
 
 		foreach ($period as $key => $date) {
-			array_push(
-				$roomsOpenedThisWeek,
+			$roomsOpenedThisWeek->push(
 				RoomOpenEvent::whereIn("room_id", $roomIds)
 					->where(
 						"created_at",
@@ -47,20 +46,22 @@ class DashboardController extends Controller
 			);
 		}
 
-		$roomsCompleted = RoomResult::whereIn("room_id", $roomIds)->get();
-		$roomsCompletedCount = $roomsCompleted->count();
-		$averageTime =
-			$roomsCompleted->sum("completion_time") / $roomsCompletedCount;
+		$roomsCompletedCount = RoomResult::whereIn(
+			"room_id",
+			$roomIds
+		)->count();
+
+		$averageTime = RoomResult::whereIn("room_id", $roomIds)->avg(
+			"completion_time"
+		);
 
 		$roomTimes = $rooms->map(function ($roomId) {
-			$roomResults = RoomResult::where("room_id", $roomId)->get();
-			$count = $roomResults->count();
-			if ($count <= 0) {
+			if (RoomResult::where("room_id", $roomId)->count() <= 0) {
 				return 0;
 			}
 
 			return number_format(
-				$roomResults->sum("completion_time") / $count,
+				RoomResult::where("room_id", $roomId)->avg("completion_time"),
 				2
 			);
 		});
