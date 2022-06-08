@@ -11,6 +11,8 @@ class ApiJsonResponse
 	 */
 	private ?array $validation = null;
 
+	private ?string $error = null;
+
 	private mixed $data = null;
 
 	public function __construct(private int $status = 200)
@@ -49,6 +51,17 @@ class ApiJsonResponse
 	}
 
 	/**
+	 * @param string $error
+	 * @return static
+	 */
+	public function setError(string $error)
+	{
+		$this->error = $error;
+
+		return $this;
+	}
+
+	/**
 	 * @return JsonResponse
 	 */
 	public function export()
@@ -60,6 +73,7 @@ class ApiJsonResponse
 				"success" => $success,
 				"validation" => (object) ($this->validation ?? []),
 				"data" => (object) ($this->data ?? []),
+				"error" => $this->error,
 			],
 			$this->status
 		);
