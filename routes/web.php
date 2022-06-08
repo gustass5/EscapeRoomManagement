@@ -5,6 +5,7 @@ use App\Http\Controllers\EditRoomController;
 use App\Http\Controllers\RoomsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RoomDashboardController;
+use App\Http\Controllers\TimelineController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\LoginController;
@@ -31,6 +32,10 @@ Route::middleware(["guest"])->group(function () {
 Route::middleware(["auth"])->group(function () {
 	Route::get("/dashboard", [DashboardController::class, "index"])->name(
 		"dashboard"
+	);
+
+	Route::get("/timeline", [TimelineController::class, "index"])->name(
+		"timeline"
 	);
 
 	Route::get("/rooms/{room}/dashboard", [
