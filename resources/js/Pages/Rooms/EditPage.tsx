@@ -16,6 +16,8 @@ const EditPage: React.FC = () => {
 				id: number;
 				name: string;
 				description: string;
+				started_at: string;
+				ended_at: string;
 				questions: {
 					id: number;
 					question: string;
@@ -32,10 +34,14 @@ const EditPage: React.FC = () => {
 	const { data, setData, post, processing, errors } = useForm<{
 		name: string;
 		description: string;
+		started_at: string;
+		ended_at: string;
 		questions: QuestionInterface[];
 	}>({
 		name: room.name,
 		description: room.description,
+		started_at: room.started_at ?? "",
+		ended_at: room.ended_at ?? "",
 		questions: room.questions.map((question) => ({
 			id: question.id,
 			value: question.question,
@@ -76,6 +82,12 @@ const EditPage: React.FC = () => {
 				handleDescriptionChange={(
 					event: React.FormEvent<HTMLInputElement>
 				) => setData("description", event.target.value.toString())}
+				handleStartedAtChange={(
+					event: React.FormEvent<HTMLInputElement>
+				) => setData("started_at", event.target.value.toString())}
+				handleEndedAtChange={(
+					event: React.FormEvent<HTMLInputElement>
+				) => setData("ended_at", event.target.value.toString())}
 			>
 				<HasMany
 					initialItems={data.questions}

@@ -32,7 +32,7 @@ export const AuthenticatedLayout: React.FC<AuthenticatedLayoutInterface> = ({
 		{ name: "Rooms", href: "/rooms", icon: PuzzleIcon },
 		// [M-113]: Hide these pages until they are implemented
 		// { name: "Students", href: "#", icon: UserGroupIcon },
-		// { name: "Calendar", href: "#", icon: CalendarIcon },
+		{ name: "Timeline", href: "/timeline", icon: CalendarIcon },
 		{ name: "Reports", href: "#", icon: ChartBarIcon },
 	];
 

@@ -6,6 +6,7 @@ use App\Models\Question;
 use App\Models\Room;
 use App\Models\RoomResult;
 use App\Models\RoomOpenEvent;
+use Carbon\CarbonImmutable;
 use Domain\Room\Enums\RoomVisibilityEnum;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
@@ -43,6 +44,15 @@ class RoomFactory extends Factory
 	 */
 	public function definition()
 	{
+		$startDateTime = $this->faker->boolean
+			? CarbonImmutable::now()->addDays(
+				$this->faker->numberBetween(-6, 5)
+			)
+			: null;
+		$endDateTime = $startDateTime?->addDays(
+			$this->faker->numberBetween(1, 6)
+		);
+
 		return [
 			"name" => (string) Str::of($this->faker->text(30))->replaceLast(
 				".",
@@ -55,6 +65,8 @@ class RoomFactory extends Factory
 			"access_code" =>
 				$this->faker->regexify("[A-Z]{2}") .
 				$this->faker->numberBetween(1000, 9999),
+			"started_at" => $startDateTime?->toDateTimeString(),
+			"ended_at" => $endDateTime?->toDateTimeString(),
 		];
 	}
 }

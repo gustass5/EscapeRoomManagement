@@ -7,9 +7,14 @@ export const RoomForm: React.FC<{
 	data: {
 		name: string;
 		description: string;
+		started_at: string;
+		ended_at: string;
 		questions: QuestionInterface[];
 	};
-	errors: Record<"name" | "description" | "questions", string>;
+	errors: Record<
+		"name" | "description" | "started_at" | "ended_at" | "questions",
+		string
+	>;
 	handleSubmit: (event: React.SyntheticEvent) => void;
 	handleNameChange: (event: React.FormEvent<HTMLInputElement>) => void;
 	handleDescriptionChange: (event: React.FormEvent<HTMLInputElement>) => void;
@@ -18,6 +23,8 @@ export const RoomForm: React.FC<{
 	errors,
 	handleSubmit,
 	handleNameChange,
+	handleStartedAtChange,
+	handleEndedAtChange,
 	handleDescriptionChange,
 	children,
 }) => {
@@ -45,6 +52,34 @@ export const RoomForm: React.FC<{
 					Description
 				</FormField>
 				<FormError error={errors.description} />
+
+				<div className="flex w-full space-x-4">
+					<div className="flex-1">
+						<FormField
+							identifier="started_at"
+							value={data.started_at}
+							required={false}
+							placeholder="0000-00-00 00:00:00"
+							handleChange={handleStartedAtChange}
+						>
+							Starts at
+						</FormField>
+						<FormError error={errors.started_at} />
+					</div>
+
+					<div className="flex-1">
+						<FormField
+							identifier="ended_at"
+							value={data.ended_at}
+							required={false}
+							placeholder="0000-00-00 00:00:00"
+							handleChange={handleEndedAtChange}
+						>
+							Ends at
+						</FormField>
+						<FormError error={errors.ended_at} />
+					</div>
+				</div>
 			</div>
 			{children}
 		</form>

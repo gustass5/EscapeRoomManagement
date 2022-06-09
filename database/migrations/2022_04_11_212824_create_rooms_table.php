@@ -22,6 +22,8 @@ return new class extends Migration {
 			$table->text("description");
 			$table->string("visibility");
 			$table->string("access_code")->unique();
+			$table->timestamp("started_at")->nullable();
+			$table->timestamp("ended_at")->nullable();
 			$table->timestamps();
 		});
 	}

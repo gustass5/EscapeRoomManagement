@@ -17,6 +17,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $description
  * @property RoomVisibilityEnum $visibility
  * @property string $access_code
+ * @property \Carbon\CarbonImmutable|null $started_at
+ * @property \Carbon\CarbonImmutable|null $ended_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RoomOpenEvent[] $openEvents
@@ -32,8 +34,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereAccessCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Room whereEndedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Room whereStartedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereVisibility($value)
@@ -47,6 +51,8 @@ class Room extends Model
 
 	protected $casts = [
 		"visibility" => RoomVisibilityEnum::class,
+		"started_at" => "immutable_datetime",
+		"ended_at" => "immutable_datetime",
 	];
 
 	/**

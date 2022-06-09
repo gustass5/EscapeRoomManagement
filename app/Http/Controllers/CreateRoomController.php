@@ -27,6 +27,8 @@ class CreateRoomController extends Controller
 		$room = $request->validate([
 			"name" => ["required"],
 			"description" => ["required"],
+			"started_at" => ["nullable", "date_format:Y-m-d H:i:s"],
+			"ended_at" => ["nullable", "date_format:Y-m-d H:i:s"],
 			"questions.*.value" => ["required"],
 			"questions.*.answers" => ["array", "min:4", "max:4"],
 			"questions.*.answers.*.value" => ["required"],
@@ -36,6 +38,8 @@ class CreateRoomController extends Controller
 		$createdRoom = $user->rooms()->create([
 			"name" => $room["name"],
 			"description" => $room["description"],
+			"started_at" => $room["started_at"],
+			"ended_at" => $room["ended_at"],
 			"visibility" => "PUBLIC",
 			"access_code" => Str::upper(Str::random(6)),
 		]);

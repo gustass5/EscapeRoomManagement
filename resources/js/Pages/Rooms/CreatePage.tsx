@@ -11,10 +11,14 @@ const CreatePage: React.FC = () => {
 	const { data, setData, post, processing, errors } = useForm<{
 		name: string;
 		description: string;
+		started_at: string;
+		ended_at: string;
 		questions: QuestionInterface[];
 	}>({
 		name: "",
 		description: "",
+		started_at: "",
+		ended_at: "",
 		questions: [],
 	});
 
@@ -47,6 +51,12 @@ const CreatePage: React.FC = () => {
 				handleDescriptionChange={(
 					event: React.FormEvent<HTMLInputElement>
 				) => setData("description", event.target.value.toString())}
+				handleStartedAtChange={(
+					event: React.FormEvent<HTMLInputElement>
+				) => setData("started_at", event.target.value.toString())}
+				handleEndedAtChange={(
+					event: React.FormEvent<HTMLInputElement>
+				) => setData("ended_at", event.target.value.toString())}
 			>
 				<HasMany
 					setState={(questions: QuestionInterface[]) => {

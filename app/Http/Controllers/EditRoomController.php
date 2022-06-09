@@ -9,13 +9,19 @@ use Inertia\Response;
 
 class EditRoomController extends Controller
 {
-	public function index(Room $room): Response
+	public function index(int $roomId): Response
 	{
+		$room = Room::with(["questions", "questions.answers"])->findOrFail(
+			$roomId
+		);
+		$roomData = $room->toArray();
+
 		return Inertia::render("Rooms/EditPage", [
-			"room" => Room::with([
-				"questions",
-				"questions.answers",
-			])->findOrFail($room->id),
+			"room" => [
+				...$roomData,
+				"started_at" => $room->started_at?->toDateTimeString(),
+				"ended_at" => $room->ended_at?->toDateTimeString(),
+			],
 		]);
 	}
 
@@ -24,6 +30,8 @@ class EditRoomController extends Controller
 		$roomData = $request->validate([
 			"name" => ["required"],
 			"description" => ["required"],
+			"started_at" => ["nullable", "date_format:Y-m-d H:i:s"],
+			"ended_at" => ["nullable", "date_format:Y-m-d H:i:s"],
 			"questions.*.value" => ["required"],
 			"questions.*.answers" => ["array", "min:4", "max:4"],
 			"questions.*.answers.*.value" => ["required"],
@@ -32,6 +40,8 @@ class EditRoomController extends Controller
 		$room = Room::find($id);
 		$room->name = $roomData["name"];
 		$room->description = $roomData["description"];
+		$room->started_at = $roomData["started_at"];
+		$room->ended_at = $roomData["ended_at"];
 		$room->save();
 
 		$questionsIds = collect($request["questions"])->pluck("id");

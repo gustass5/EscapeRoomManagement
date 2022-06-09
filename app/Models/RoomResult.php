@@ -11,22 +11,20 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property int $room_id
  * @property string $name
- * @property string $description
- * @property int $correct_answers_amount
- * @property int $total_answers_amount
+ * @property int $invalid_attempts
+ * @property int $completion_time
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Database\Factories\RoomResultFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|RoomResult newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|RoomResult newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|RoomResult query()
- * @method static \Illuminate\Database\Eloquent\Builder|RoomResult whereCorrectAnswersAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RoomResult whereCompletionTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RoomResult whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|RoomResult whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RoomResult whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RoomResult whereInvalidAttempts($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RoomResult whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RoomResult whereRoomId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|RoomResult whereTotalAnswersAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RoomResult whereUpdatedAt($value)
  * @mixin \Eloquent
  */
