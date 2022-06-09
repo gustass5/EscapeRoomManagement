@@ -17,7 +17,10 @@ class RoomDashboardController extends Controller
 		$user = auth()->user();
 		$room = $user->rooms()->findOrFail($room->id);
 		return Inertia::render("Rooms/RoomDashboard", [
-			"room" => $user->rooms()->findOrFail($room->id),
+			"room" => $user
+				->rooms()
+				->with("roomType")
+				->findOrFail($room->id),
 			"questionCount" => $room->questions()->count(),
 			"results" => $room
 				->results()

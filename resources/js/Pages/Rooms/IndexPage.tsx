@@ -14,6 +14,12 @@ const IndexPage: React.VFC = () => {
 				name: string;
 				description: string;
 				access_code: string;
+				room_type: {
+					id: number;
+					identifier: string;
+					label: string;
+					question_count: number;
+				};
 				created_at: string;
 			}[];
 		}>
@@ -37,7 +43,6 @@ const IndexPage: React.VFC = () => {
 			return [...previousShowAccessCodesFor, roomId];
 		});
 	};
-
 	return (
 		<Panel
 			title="Rooms"
@@ -59,6 +64,12 @@ const IndexPage: React.VFC = () => {
 							className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6 whitespace-nowrap"
 						>
 							Title
+						</th>
+						<th
+							scope="col"
+							className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 sm:px-6 whitespace-nowrap"
+						>
+							Type
 						</th>
 						<th
 							scope="col"
@@ -87,12 +98,16 @@ const IndexPage: React.VFC = () => {
 							id,
 							name,
 							description,
+							room_type,
 							access_code,
 							created_at,
 						}) => (
 							<tr key={id} className="h-[59px]">
 								<td className="whitespace-nowrap px-4 text-sm sm:px-6 text-gray-900">
 									{name}
+								</td>
+								<td className="whitespace-nowrap px-4 text-sm sm:px-6 text-gray-900">
+									{room_type.label}
 								</td>
 								<td className="px-4 text-sm sm:px-6 text-gray-900">
 									{description}

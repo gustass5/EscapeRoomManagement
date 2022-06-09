@@ -65,6 +65,7 @@ class DemoSeeder extends Seeder
 		]);
 
 		$room = Room::create([
+			"room_type_id" => 1,
 			"user_id" => $userDemo->id,
 			"name" => "Garage demo",
 			"description" => "Demo room",

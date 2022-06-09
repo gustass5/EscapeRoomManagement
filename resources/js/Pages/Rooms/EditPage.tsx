@@ -10,7 +10,7 @@ import { RoomForm } from "../../widgets/RoomForm";
 import { QuestionInterface } from "../../helpers/RoomInterfaces";
 
 const EditPage: React.FC = () => {
-	const { room } = usePage<
+	const { room, roomType } = usePage<
 		Page<{
 			room: {
 				id: number;
@@ -27,6 +27,12 @@ const EditPage: React.FC = () => {
 						is_correct: string;
 					}[];
 				}[];
+			};
+			roomType: {
+				id: number;
+				identifier: string;
+				label: string;
+				question_count: number;
 			};
 		}>
 	>().props;
@@ -61,6 +67,7 @@ const EditPage: React.FC = () => {
 	return (
 		<Panel
 			title="Update room"
+			description={roomType.label}
 			footer={
 				<Button
 					type="submit"
@@ -90,7 +97,9 @@ const EditPage: React.FC = () => {
 				) => setData("ended_at", event.target.value.toString())}
 			>
 				<HasMany
+					error={errors.questions}
 					initialItems={data.questions}
+					maxItemsCount={roomType.question_count}
 					setState={(questions: QuestionInterface[]) => {
 						setData("questions", questions);
 					}}

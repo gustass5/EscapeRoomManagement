@@ -65,6 +65,7 @@ class RoomFactory extends Factory
 			"access_code" =>
 				$this->faker->regexify("[A-Z]{2}") .
 				$this->faker->numberBetween(1000, 9999),
+			"room_type_id" => $this->faker->numberBetween(1, 2),
 			"started_at" => $startDateTime?->toDateTimeString(),
 			"ended_at" => $endDateTime?->toDateTimeString(),
 		];

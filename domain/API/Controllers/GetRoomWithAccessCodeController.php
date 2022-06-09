@@ -41,6 +41,7 @@ class GetRoomWithAccessCodeController
 			->setData([
 				"room" => [
 					...$room->only(["name", "description"]),
+					"type" => $room->roomType->identifier,
 					"questions" => $questions->map(
 						fn(Question $question) => [
 							...$question->only(["id", "question"]),
