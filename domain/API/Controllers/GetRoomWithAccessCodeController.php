@@ -14,15 +14,19 @@ class GetRoomWithAccessCodeController
 	{
 		$now = CarbonImmutable::now();
 
-		if ($room->started_at !== null && $now->isBefore($room->started_at)) {
+		if ($room->ended_at !== null && $now->isAfter($room->ended_at)) {
 			return ApiJsonResponse::make(403)
-				->setError("Room not started")
+				->setError("Room is no longer available.")
 				->export();
 		}
 
-		if ($room->ended_at !== null && $now->isAfter($room->ended_at)) {
+		if ($room->started_at !== null && $now->isBefore($room->started_at)) {
 			return ApiJsonResponse::make(403)
-				->setError("Room ended")
+				->setError(
+					"Room is unavailable until " .
+						$room->started_at->toDateTimeString() .
+						"."
+				)
 				->export();
 		}
 
