@@ -4,6 +4,7 @@ import { Link, useForm, usePage } from "@inertiajs/inertia-react";
 import React, { ReactElement, useState } from "react";
 import { Button } from "../../components/Button/Button";
 import { Panel } from "../../components/Panel";
+import { Alert } from "../../components/Alert";
 import { AuthenticatedLayout } from "../../layout/AuthenticatedLayout";
 
 const IndexPage: React.VFC = () => {
@@ -21,10 +22,11 @@ const IndexPage: React.VFC = () => {
 
 	const [showAccessCodesFor, setShowAccessCodesFor] = useState<number[]>([]);
 
+	const [deleteAlertId, setDeleteAlertId] = useState<number | null>(null);
+
 	const { post } = useForm();
 
-	const handleDelete = (event, id: number) => {
-		event.stopPropagation();
+	const handleDelete = (id: number) => {
 		post(`/rooms/${id}/delete`);
 	};
 
@@ -137,9 +139,7 @@ const IndexPage: React.VFC = () => {
 										<button
 											className="responsive-text-align text-sm font-medium transition duration-150 text-black hover:text-rose-500"
 											type="button"
-											onClick={(event) =>
-												handleDelete(event, id)
-											}
+											onClick={() => setDeleteAlertId(id)}
 										>
 											<XIcon className=" w-5 h-5" />
 										</button>
@@ -150,6 +150,16 @@ const IndexPage: React.VFC = () => {
 					)}
 				</tbody>
 			</table>
+
+			<Alert
+				title="Are you sure?"
+				description="This will be irreversible."
+				confirmButtonText="Delete"
+				cancelButtonText="Cancel"
+				open={deleteAlertId !== null}
+				onConfirm={() => handleDelete(deleteAlertId)}
+				onClose={() => setDeleteAlertId(null)}
+			/>
 		</Panel>
 	);
 };
