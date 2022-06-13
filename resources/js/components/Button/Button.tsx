@@ -20,7 +20,7 @@ export const Button: React.FC<ButtonInterface> = ({
 }) => {
 	const Tag = href === null ? "button" : "a";
 	const styles =
-		"w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition ease-in-out duration-500";
+		"w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md focus:outline-none focus:ring-indigo-500 transition ease-in-out duration-500";
 
 	return (
 		<Tag
