@@ -34,7 +34,6 @@ const Dashboard: React.VFC = () => {
 		}>
 	>().props;
 
-	console.log({ roomsStartedPerType });
 	return (
 		<React.Fragment>
 			<div className="flex space-between space-x-6 mb-6">

@@ -34,7 +34,7 @@ class CreateRoomController extends Controller
 			"description" => ["required"],
 			"started_at" => ["nullable", "date_format:Y-m-d H:i:s"],
 			"ended_at" => ["nullable", "date_format:Y-m-d H:i:s"],
-			"room_type" => ["required", "numeric"],
+			"room_type" => ["required", "exists:room_types,id", "numeric"],
 			"questions" => ["required", "array"],
 			"questions.*.value" => ["required"],
 			"questions.*.answers" => ["array", "min:4", "max:4"],

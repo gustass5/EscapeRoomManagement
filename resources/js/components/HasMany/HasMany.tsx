@@ -40,7 +40,7 @@ export const HasMany: React.VFC<{
 	const removeItem = (index: number) => {
 		setItems(items.filter((_, itemIndex) => itemIndex !== index));
 	};
-	// $$ ADD MAX QUESTIONS AND VALIDATION
+
 	return (
 		<div className="text-gray-800 border border-gray-50 shadow px-4 py-1 rounded">
 			<div className="flex items-center justify-between">
