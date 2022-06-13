@@ -1,13 +1,16 @@
 import { PlusIcon } from "@heroicons/react/outline";
 import React, { useState, useEffect } from "react";
+import { FormError } from "../../widgets/FormError";
 import { Button } from "../Button/Button";
 import { HasManyItem } from "./HasManyItem";
 import { HasManyItemInterface } from "./helpers/HasManyInterfaces";
 
 export const HasMany: React.VFC<{
-	initialItems?: HasManyItemInterface[];
 	setState: (items: HasManyItemInterface[]) => void;
-}> = ({ initialItems = [], setState }) => {
+	error: string;
+	maxItemsCount: number;
+	initialItems?: HasManyItemInterface[];
+}> = ({ initialItems = [], setState, error, maxItemsCount }) => {
 	const [items, setItems] = useState<HasManyItemInterface[]>([
 		...initialItems,
 	]);
@@ -44,8 +47,15 @@ export const HasMany: React.VFC<{
 				<div>Questions</div>
 				<div>
 					<Button
-						className="!w-auto text-white bg-pink-700 hover:bg-pink-800"
+						className={`!w-auto text-white ${
+							items.length >= maxItemsCount
+								? "bg-gray-500 cursor-not-allowed"
+								: "bg-pink-700 hover:bg-pink-800"
+						}`}
 						handleClick={() => {
+							if (items.length >= maxItemsCount) {
+								return;
+							}
 							setItems([
 								...items,
 								{
@@ -81,6 +91,7 @@ export const HasMany: React.VFC<{
 					</Button>
 				</div>
 			</div>
+			<FormError error={error} />
 
 			<div className="py-4 space-y-4">
 				{items.map((item, index) => {

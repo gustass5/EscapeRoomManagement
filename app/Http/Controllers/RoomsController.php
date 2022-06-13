@@ -16,6 +16,7 @@ class RoomsController extends Controller
 		return Inertia::render("Rooms/IndexPage", [
 			"rooms" => $user
 				->rooms()
+				->with("roomType")
 				->orderByDesc("created_at")
 				->get()
 				->toArray(),

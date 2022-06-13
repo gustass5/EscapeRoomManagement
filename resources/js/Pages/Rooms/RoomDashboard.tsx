@@ -65,7 +65,7 @@ const RoomDashboard: React.VFC = () => {
 	return (
 		<React.Fragment>
 			<div className="flex space-between space-x-6 mb-6">
-				<Card title={room.name} description="GARAGE">
+				<Card title={room.name} description={room.room_type.label}>
 					<InformationCircleIcon className="w-20 h-20 text-blue-500" />
 				</Card>
 				<Card

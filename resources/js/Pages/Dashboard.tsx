@@ -18,21 +18,19 @@ const LABORATORY_TIMES = [23, 27, 25];
 const Dashboard: React.VFC = () => {
 	const {
 		roomsOpened,
-		roomsOpenedThisWeek,
 		roomsCompleted,
 		averageTime,
 		chartSubtitle,
-		roomLabels,
-		roomTimes,
+		averageTimeSpentPerType,
+		roomsStartedPerType,
 	} = usePage<
 		Page<{
 			roomsOpened: number;
-			roomsOpenedThisWeek: number[];
 			roomsCompleted: number;
 			averageTime: number;
 			chartSubtitle: string;
-			roomLabels: string[];
-			roomTimes: number[];
+			averageTimeSpentPerType: any;
+			roomsStartedPerType: any;
 		}>
 	>().props;
 
@@ -72,18 +70,15 @@ const Dashboard: React.VFC = () => {
 						xAxisLabel="Day"
 						yAxisLabel="Rooms"
 						stacked={false}
-						dataSets={[
-							{
-								label: "Garage",
-								data: roomsOpenedThisWeek,
-								backgroundColor: "rgba(190, 24, 93, 0.8)",
-							},
-							{
-								label: "Laboratory",
-								data: LABORATORIES_OPENED_THIS_WEEK,
-								backgroundColor: "rgba(53, 162, 235, 0.8)",
-							},
-						]}
+						dataSets={roomsStartedPerType.map(
+							({ roomType, roomsOpenedThisWeek }) => {
+								return {
+									label: roomType.label,
+									data: roomsOpenedThisWeek,
+									backgroundColor: `rgba(${roomType.rgb_color}, 0.8)`,
+								};
+							}
+						)}
 					/>
 				</Panel>
 
@@ -94,19 +89,27 @@ const Dashboard: React.VFC = () => {
 				>
 					<Doughnut
 						data={{
-							labels: ["Garages", "Laboratories"],
+							labels: roomsStartedPerType.map(
+								({ roomType }) => roomType.label
+							),
 							datasets: [
 								{
 									label: "Created this week",
-									data: [roomsOpened, 0],
-									backgroundColor: [
-										"rgba(190, 24, 93, 0.9)",
-										"rgba(53, 162, 235, 0.9)",
-									],
-									borderColor: [
-										"rgba(255, 99, 132, 1)",
-										"rgba(54, 162, 235, 1)",
-									],
+									data: roomsStartedPerType.map(
+										({ roomsOpenedThisWeek }) =>
+											roomsOpenedThisWeek.reduce(
+												(sum, next) => sum + next
+											),
+										0
+									),
+									backgroundColor: roomsStartedPerType.map(
+										({ roomType }) =>
+											`rgba(${roomType.rgb_color}, 0.9)`
+									),
+									borderColor: roomsStartedPerType.map(
+										({ roomType }) =>
+											`rgba(${roomType.rgb_color}, 1)`
+									),
 									borderWidth: 1,
 								},
 							],
@@ -116,83 +119,54 @@ const Dashboard: React.VFC = () => {
 			</div>
 
 			<div className="flex flex-col space-y-6">
-				<Panel
-					title="Average time spent"
-					description="Average time to complete each room of type - garage"
-					className="relative h-[480px] w-full"
-					contentStyling="h-[400px]"
-				>
-					<Chart
-						type="bar"
-						data={{
-							labels: roomLabels,
-							datasets: [
-								{
-									type: "line" as const,
-									label: "Total average (min)",
-									borderColor: "rgb(255, 99, 132)",
-									borderWidth: 2,
-									fill: false,
-									data: roomLabels.map((_) => averageTime),
-								},
-								{
-									type: "bar" as const,
-									label: "Average time (min)",
-									backgroundColor: "rgba(190, 24, 93, 0.9)",
-									data: roomTimes,
-									borderColor: "white",
-									borderWidth: 2,
-								},
-							],
-						}}
-						options={{
-							responsive: true,
-							maintainAspectRatio: false,
-							plugins: {
-								legend: { position: "right" },
-							},
-						}}
-					/>
-				</Panel>
-
-				<Panel
-					title="Average time spent"
-					description="Average time to complete each room of type - laboratory"
-					className="relative h-[480px] w-full"
-					contentStyling="h-[400px]"
-				>
-					<Chart
-						type="bar"
-						data={{
-							labels: LABORATORY_LABELS,
-							datasets: [
-								{
-									type: "line" as const,
-									label: "Average of all rooms (min)",
-									borderColor: "rgb(255, 99, 132)",
-									borderWidth: 2,
-									fill: false,
-									data: LABORATORY_LABELS.map(
-										(_) => averageTime
-									),
-								},
-								{
-									type: "bar" as const,
-									label: "Average time (min)",
-									backgroundColor: "rgba(53, 162, 235, 0.9)",
-									data: LABORATORY_TIMES,
-								},
-							],
-						}}
-						options={{
-							responsive: true,
-							maintainAspectRatio: false,
-							plugins: {
-								legend: { position: "right" },
-							},
-						}}
-					/>
-				</Panel>
+				{averageTimeSpentPerType.map(
+					({ roomType, roomLabels, roomTimes }, index) => {
+						return (
+							<Panel
+								key={index}
+								title="Average time spent"
+								description={`Average time to complete each room of type - ${roomType.label}`}
+								className="relative h-[480px] w-full"
+								contentStyling="h-[400px]"
+							>
+								<Chart
+									type="bar"
+									data={{
+										labels: roomLabels,
+										datasets: [
+											{
+												type: "line" as const,
+												label: "Total average (min)",
+												borderColor:
+													"rgb(255, 99, 132)",
+												borderWidth: 2,
+												fill: false,
+												data: roomLabels.map(
+													(_) => averageTime
+												),
+											},
+											{
+												type: "bar" as const,
+												label: "Average time (min)",
+												backgroundColor: `rgba(${roomType.rgb_color}, 0.9)`,
+												data: roomTimes,
+												borderColor: "white",
+												borderWidth: 2,
+											},
+										],
+									}}
+									options={{
+										responsive: true,
+										maintainAspectRatio: false,
+										plugins: {
+											legend: { position: "right" },
+										},
+									}}
+								/>
+							</Panel>
+						);
+					}
+				)}
 			</div>
 		</React.Fragment>
 	);
