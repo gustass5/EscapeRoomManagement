@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * App\Models\Room
  *
  * @property int $id
+ * @property int $room_type_id
  * @property int $user_id
  * @property string $name
  * @property string $description
@@ -27,6 +28,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read int|null $questions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RoomResult[] $results
  * @property-read int|null $results_count
+ * @property-read \App\Models\RoomType $roomType
  * @method static \Database\Factories\RoomFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Room newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Room newQuery()
@@ -37,6 +39,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereEndedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Room whereRoomTypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereStartedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Room whereUserId($value)

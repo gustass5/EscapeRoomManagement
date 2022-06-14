@@ -35,8 +35,8 @@ return new class extends Migration {
 		]);
 
 		RoomType::create([
-			"identifier" => "house",
-			"label" => "House",
+			"identifier" => "laboratory",
+			"label" => "Laboratory",
 			"question_count" => 11,
 			"rgb_color" => "53, 162, 235",
 		]);
